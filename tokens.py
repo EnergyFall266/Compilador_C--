@@ -7,8 +7,50 @@
 # passo3: dar split nos espaços
 # passo4: fazer verificação nos if
 
-
+import string
 from os import replace
+
+token_lista = []
+lista_variaveis = []
+token = ""
+digitos = string.digits
+
+def geraErro(caractere, numeroLinha):
+    token_lista.append(['erro', caractere, numeroLinha])
+
+def verificaNumero(numero, numeroLinha):
+    valor=numero[0]
+    for i in range(len(numero)):
+        if(numero[i+1] in digitos):
+            valor += numero[i+1]
+            continue
+        elif(numero[i+1] == '.'):
+            valor += numero[i+1]
+            if(numero[i+2] in digitos):
+                temp = numero[i+2: ]
+                
+                print("temp", temp)
+                print("valor", valor)
+                for j in range(len(temp)):
+                    print(j, temp[j])
+                    if(temp[j] in digitos):
+                        valor += temp[j]
+                        continue
+                    break 
+
+                token_lista.append(['real', valor])
+                print(valor)
+                break
+            else:
+                #gerar token de erro (. sem um numero em seguida)
+                token_lista.append(['erro', numero[i+2], numeroLinha])
+                print("erro")
+                break
+        else:
+            #gerar token numero inteiro
+            token_lista.append(['inteiro', valor])
+            print(valor)
+            break
 
 def tipo_dado():
     global token, token_lista, lista_variaveis
@@ -42,16 +84,35 @@ def tipo_dado():
         del token[0]
         lista_variaveis.extend(token)
         del token[:]
-    # print(token)
-    # print(token_lista)
-    # print(lista_variaveis)
     reservadas()
 
-def operando_simbolos():   
+def simbolos(token):
+    if token == ',':
+        token=token.replace(",", " ")
+    elif token == '(':
+        token_lista.append(['abre_parenteses',token])
+        token=token.replace("(", " ")
+    elif token == ')':
+        token_lista.append(['fecha_parenteses', token])
+        token=token.replace(")", "")
+    elif token == '{':
+        token_lista.append(['abre_chaves',token])
+        token=token.replace("{", " ")
+    elif token == '}':
+        token_lista.append(['fecha_chaves',token])
+        token=token.replace("}", "")
+    elif token == ':':
+        token_lista.append(['dois_pontos',token])
+        token=token.replace(":", " ")
+    elif token == ';':
+        token_lista.append(['ponto_virgula',token])
+        token=token.replace(";", " ")
+
+def operadorSimbolos(caracteres):   
     global token, token_lista
     
+    token=caracteres
     for i in range(len(token)-1):
-        print(token)
         if token[i] == '+':
             token_lista.append(['operador_sum', token[i]])
             token=token.replace("+", " ")
@@ -65,7 +126,6 @@ def operando_simbolos():
             token_lista.append(['operador_mul',token[i]])
             token=token.replace("/", " ")
 
-
         elif token[i] == '&':
             token_lista.append(['op_logicos',token[i]])
             token=token.replace("&", " ")
@@ -76,22 +136,16 @@ def operando_simbolos():
         elif token[i] == ',':
             token=token.replace(",", " ")
         elif token[i] == '(':
-            token_lista.append(['abre_parenteses',token[i]])
             token=token.replace("(", " ")
         elif token[i] == ')':
-            token_lista.append(['fecha_parenteses', token[i]])
             token=token.replace(")", "")
         elif token[i] == '{':
-            token_lista.append(['abre_chaves',token[i]])
             token=token.replace("{", " ")
         elif token[i] == '}':
-            token_lista.append(['fecha_chaves',token[i]])
             token=token.replace("}", "")
         elif token[i] == ':':
-            token_lista.append(['dois_pontos',token[i]])
             token=token.replace(":", " ")
         elif token[i] == ';':
-            token_lista.append(['ponto_virgula',token[i]])
             token=token.replace(";", " ")
 
         elif token[i] == '>':
@@ -124,23 +178,16 @@ def operando_simbolos():
             token_lista.append(['operador_not', token[i]])
             token=token.replace("!", " ")
     
-    # print(token)
     token=token.split(" ")  
-    # print(token)
-    # print(len(token))
     exclui=0
     for iter in range(len(token)):
-        # print(exclui)
         if len(token[exclui])==0:
             token.pop(exclui)
         else:
-            exclui+=1    
-    # print(token)
-    # print(token_lista)
+            exclui+=1   
     
     tipo_dado()
-    
-    
+     
 def char_string():
     global token, token_lista
     for i in range(len(token)):    
@@ -153,7 +200,6 @@ def char_string():
             token_lista.append(['booleano', token[i]])
         elif token[i] == 'false':
             token_lista.append(['booleano', token[i]])
-    # print(token_lista)
 
 def operandos():
     global token, token_lista, lista_variaveis
@@ -161,14 +207,14 @@ def operandos():
         for indice in range(len(lista_variaveis)):
             if token[k] == lista_variaveis[indice]:
                 token_lista.append(['operando', token[k]])
-                
-    # print(token)
-    # print(token_lista)
 
     char_string()
+
 def reservadas():
     global token, token_lista
-    if token[0] == 'if':
+    print(token)
+    print(token[0])
+    if token[0] == "if":
         token_lista.append(['palavra_reservada', token[0]])
         del token[0]
     elif token[0] == 'else':
@@ -202,23 +248,11 @@ def reservadas():
         token_lista.append(['palavra_reservada', token[0]])
         del token[0]
     
-    # print(token)
-    # print(token_lista)
     operandos()
-
-def numeros():
-
-    if token[1:].isnumeric():
-        token_lista.append(['inteiro', token])
-
-    elif float(token):
-        token_lista.append(['real', token])
-
-
-
+'''
 if __name__ == '__main__':
     token = "if==('nota'+nota2\")"
     token_lista=[]
     lista_variaveis = ['nota2', 'nota']
     operando_simbolos()
-    "sd s"
+    "sd s"'''

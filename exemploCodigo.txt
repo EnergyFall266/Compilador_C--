@@ -1,0 +1,34 @@
+main
+{
+¬¬Declaração das variáveis
+float nota1, nota2, media
+bool aprovado
+
+aprovado = 's'
+
+¬¬Entrada de dados
+print("Digite a primeira nota do aluno: ")
+scan(nota1)
+
+print("Digite a segunda nota do aluno: ")
+scanf(nota)
+
+¬¬Processamento
+media = (nota1 + nota2) / 2.567
+
+¬¬Verifica aprovação
+if(media < 70+56)
+{
+aprovado = false
+print(“Aluno reprovado!”)
+}
+else
+{
+aprovado = true
+print(“Aluno aprovado!”)
+}
+
+¬Saída
+print("Media do aluno = ")
+print(media)
+}
