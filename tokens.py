@@ -17,25 +17,34 @@ def tipo_dado():
         token_lista.append(['tipo_dado', token[0]])
         del token[0]
         lista_variaveis.extend(token)
+        del token[:]
+
     elif token[0] == 'float':
         token_lista.append(['tipo_dado', token[0]])
         del token[0]
         lista_variaveis.extend(token)
+        del token[:]
+
     elif token[0] == 'double':
         token_lista.append(['tipo_dado', token[0]])
         del token[0]
         lista_variaveis.extend(token)
+        del token[:]
+
     elif token[0] == 'char':
         token_lista.append(['tipo_dado', token[0]])
         del token[0]
         lista_variaveis.extend(token)
+        del token[:]
+
     elif token[0] == 'bool':
         token_lista.append(['tipo_dado', token[0]])
         del token[0]
         lista_variaveis.extend(token)
-    print(token)
-    print(token_lista)
-    print(lista_variaveis)
+        del token[:]
+    # print(token)
+    # print(token_lista)
+    # print(lista_variaveis)
     reservadas()
 
 def operando_simbolos():   
@@ -114,40 +123,49 @@ def operando_simbolos():
         elif token[i] == '!':
             token_lista.append(['operador_not', token[i]])
             token=token.replace("!", " ")
-        # elif token[i] == '\n':
-        #     token=token.replace("\n", ".")
-    print(token)
+    
+    # print(token)
     token=token.split(" ")  
-    print(token)
-    print(len(token))
+    # print(token)
+    # print(len(token))
     exclui=0
     for iter in range(len(token)):
-        print(exclui)
+        # print(exclui)
         if len(token[exclui])==0:
-            print("entrou if")
             token.pop(exclui)
         else:
             exclui+=1    
-    print(token)
-    print(token_lista)
+    # print(token)
+    # print(token_lista)
     
     tipo_dado()
     
     
-def algo():
-    if token[0] == '"' and token[:-1] == '"':
-            token_lista.append(['cadeia_print', token])
+def char_string():
+    global token, token_lista
+    for i in range(len(token)):    
+        if token[i][0] == '"' and token[i][-1] == '"':
+            token_lista.append(['cadeia_print', token[i]])
 
-    elif token[0] == "'" and token[:-1] == "'":
-        if token[1:-2].isalpha:
-            token_lista.append(['char', token]) 
-    elif i == 'true':
-        token_lista.append(['booleano', token])
-    elif i == 'false':
-        token_lista.append(['booleano', token])
+        elif token[i][0] == "'" and token[i][-1] == "'":
+           token_lista.append(['char', token[i]]) 
+        elif token[i] == 'true':
+            token_lista.append(['booleano', token[i]])
+        elif token[i] == 'false':
+            token_lista.append(['booleano', token[i]])
+    # print(token_lista)
 
+def operandos():
+    global token, token_lista, lista_variaveis
+    for k in range(len(token)):
+        for indice in range(len(lista_variaveis)):
+            if token[k] == lista_variaveis[indice]:
+                token_lista.append(['operando', token[k]])
+                
+    # print(token)
+    # print(token_lista)
 
-      
+    char_string()
 def reservadas():
     global token, token_lista
     if token[0] == 'if':
@@ -183,7 +201,10 @@ def reservadas():
     elif token[0] == 'null':
         token_lista.append(['palavra_reservada', token[0]])
         del token[0]
-
+    
+    # print(token)
+    # print(token_lista)
+    operandos()
 
 def numeros():
 
@@ -196,8 +217,8 @@ def numeros():
 
 
 if __name__ == '__main__':
-    token = "int==(nota1+nota2)"
+    token = "if==('nota'+nota2\")"
     token_lista=[]
-    lista_variaveis = []
+    lista_variaveis = ['nota2', 'nota']
     operando_simbolos()
-    
+    "sd s"

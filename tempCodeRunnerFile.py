@@ -1,1 +1,1 @@
-token_lista
+operandos()
