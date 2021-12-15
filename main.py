@@ -24,19 +24,19 @@ if __name__ == "__main__":
                     token.simbolos(linha[char])
                 elif(linha[char] == "'"):
                     #enviar token char (vai ser enviado todos os caracteres após ')
-                    print(linha[char:])
+                    token.char_string(linha[char:])
                     break
                 elif(linha[char] == "\""):
                     #enviar token string ou print
-                    print(linha[char:-2])
+                    token.char_string(linha[char:-2])
                     break
                 elif(linha[char].isnumeric() and linha[char-1] not in pattern):
                     #verificar se é inteiro ou real e gera seu respectivo token
                     token.verificaNumero(linha[char:], numeroLinha)
                 elif(linha[char].isalnum and verificaCaractere):
-                    #verificar se é alguma palavra reservada, operando ou operador
-                    token.operadorSimbolos(linha[char:])
-                    print(linha[char:])
+                    #verificar se é alguma palavra, operando ou operador
+                    token.operadorSimbolos(linha[char:-1])
                     verificaCaractere = False 
 
-    print(token.token_lista)              
+    for i in token.token_lista:
+        print(i)              

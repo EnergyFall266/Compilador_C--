@@ -28,28 +28,22 @@ def verificaNumero(numero, numeroLinha):
             valor += numero[i+1]
             if(numero[i+2] in digitos):
                 temp = numero[i+2: ]
-                
-                print("temp", temp)
-                print("valor", valor)
+
                 for j in range(len(temp)):
-                    print(j, temp[j])
                     if(temp[j] in digitos):
                         valor += temp[j]
                         continue
                     break 
 
                 token_lista.append(['real', valor])
-                print(valor)
                 break
             else:
                 #gerar token de erro (. sem um numero em seguida)
                 token_lista.append(['erro', numero[i+2], numeroLinha])
-                print("erro")
                 break
         else:
             #gerar token numero inteiro
             token_lista.append(['inteiro', valor])
-            print(valor)
             break
 
 def tipo_dado(token):
@@ -186,22 +180,23 @@ def operadorSimbolos(caracteres):
             token.pop(exclui)
         else:
             exclui+=1   
-    print("opsimb")
-    print(token)
-    tipo_dado(token)
-     
-def char_string(token):
-    global token_lista
-    for i in range(len(token)):    
-        if token[i][0] == '"' and token[i][-1] == '"':
-            token_lista.append(['cadeia_print', token[i]])
 
-        elif token[i][0] == "'" and token[i][-1] == "'":
-           token_lista.append(['char', token[i]]) 
-        elif token[i] == 'true':
-            token_lista.append(['booleano', token[i]])
-        elif token[i] == 'false':
-            token_lista.append(['booleano', token[i]])
+    if len(token)!=0:
+        tipo_dado(token)
+     
+def char_string(caracteres):
+    global token, token_lista
+    verificaAspas = True
+
+    token = caracteres
+    for i in range(len(token)):
+        if token[i] == '"' and token[-1] == '"' and verificaAspas:
+            token_lista.append(['cadeia_print', token[1:-2]])
+            verificaAspas = False
+
+        elif token[i] == "'" and token[-2] == "'" and verificaAspas:
+            token_lista.append(['char', token[1]]) 
+            verificaAspas = False
 
 def operandos(token):
     global token_lista, lista_variaveis
@@ -210,11 +205,9 @@ def operandos(token):
             if token[k] == lista_variaveis[indice]:
                 token_lista.append(['operando', token[k]])
 
-    char_string(token)
-
 def reservadas(token):
     global token_lista
-    # print(token)
+
     if token[0] == "if":
         token_lista.append(['palavra_reservada', token[0]])
         del token[0]
@@ -248,12 +241,12 @@ def reservadas(token):
     elif token[0] == 'null':
         token_lista.append(['palavra_reservada', token[0]])
         del token[0]
+    elif token[0] == 'true':
+        token_lista.append(['booleano', token[0]])
+        del token[0]
+    elif token[0] == 'false':
+        token_lista.append(['booleano', token[0]])
+        del token[0]
     
-    operandos(token)
-'''
-if __name__ == '__main__':
-    token = "if==('nota'+nota2\")"
-    token_lista=[]
-    lista_variaveis = ['nota2', 'nota']
-    operando_simbolos()
-    "sd s"'''
+    if len(token)!=0:
+        operandos(token)
