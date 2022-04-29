@@ -61,12 +61,6 @@ def tipo_dado(token):
         lista_variaveis.extend(token)
         del token[:]
 
-    elif token[0] == 'double':
-        token_lista.append(['tipo_dado', token[0]])
-        del token[0]
-        lista_variaveis.extend(token)
-        del token[:]
-
     elif token[0] == 'char':
         token_lista.append(['tipo_dado', token[0]])
         del token[0]
@@ -85,22 +79,22 @@ def simbolos(token):
     if token == ',':
         token=token.replace(",", " ")
     elif token == '(':
-        token_lista.append(['abre_parenteses',token])
+        token_lista.append(['(',token])
         token=token.replace("(", " ")
     elif token == ')':
-        token_lista.append(['fecha_parenteses', token])
+        token_lista.append([')', token])
         token=token.replace(")", "")
     elif token == '{':
-        token_lista.append(['abre_chaves',token])
+        token_lista.append(['{',token])
         token=token.replace("{", " ")
     elif token == '}':
-        token_lista.append(['fecha_chaves',token])
+        token_lista.append(['}',token])
         token=token.replace("}", "")
     elif token == ':':
-        token_lista.append(['dois_pontos',token])
+        token_lista.append([':',token])
         token=token.replace(":", " ")
     elif token == ';':
-        token_lista.append(['ponto_virgula',token])
+        token_lista.append([';',token])
         token=token.replace(";", " ")
 
 def operadorSimbolos(caracteres):   
@@ -203,7 +197,7 @@ def operandos(token):
     for k in range(len(token)):
         for indice in range(len(lista_variaveis)):
             if token[k] == lista_variaveis[indice]:
-                token_lista.append(['operando', token[k]])
+                token_lista.append(['nome_variavel', token[k]])
 
 def reservadas(token):
     global token_lista
