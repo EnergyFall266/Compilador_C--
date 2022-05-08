@@ -161,10 +161,10 @@ def operadorSimbolos(caracteres):
                 token=token.replace("==", " ")
                 
             else:
-                token_lista.append(['atribuicao', token[i]])
+                token_lista.append(['=', token[i]])
                 token=token.replace("=", " ")
         elif token[i] == '!':
-            token_lista.append(['operador_not', token[i]])
+            token_lista.append(['!', token[i]])
             token=token.replace("!", " ")
         
     token=token.split(" ")  
@@ -203,28 +203,22 @@ def reservadas(token):
     global token_lista
 
     if token[0] == "if":
-        token_lista.append(['palavra_reservada', token[0]])
+        token_lista.append(['if', token[0]])
         del token[0]
     elif token[0] == 'else':
-        token_lista.append(['palavra_reservada', token[0]])
+        token_lista.append(['else', token[0]])
         del token[0]
     elif token[0] == 'for':
-        token_lista.append(['palavra_reservada', token[0]])
-        del token[0]
-    elif token[0] == 'switch':
-        token_lista.append(['palavra_reservada', token[0]])
-        del token[0]
-    elif token[0] == 'case':
-        token_lista.append(['palavra_reservada', token[0]])
+        token_lista.append(['for', token[0]])
         del token[0]
     elif token[0] == 'while':
-        token_lista.append(['palavra_reservada', token[0]])
+        token_lista.append(['while', token[0]])
         del token[0]
     elif token[0] == 'print':
-        token_lista.append(['palavra_reservada', token[0]])
+        token_lista.append(['print', token[0]])
         del token[0]
     elif token[0] == 'scan':
-        token_lista.append(['palavra_reservada', token[0]])
+        token_lista.append(['scan', token[0]])
         del token[0]
     elif token[0] == 'break':
         token_lista.append(['palavra_reservada', token[0]])

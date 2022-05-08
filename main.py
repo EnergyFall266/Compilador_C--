@@ -1,4 +1,5 @@
 import tokens as token
+import sintatico as sintatico
 import string
 
 if __name__ == "__main__":
@@ -39,4 +40,11 @@ if __name__ == "__main__":
                     verificaCaractere = False 
 
     for i in token.token_lista:
-        print(i)              
+        print(i) 
+
+    listTokensSintaticoTeste = ['main', 'if', 'for']
+
+    sintatico.bottom_up(listTokensSintaticoTeste)
+    #sintatico.bottom_up(token.token_lista)
+
+                 
