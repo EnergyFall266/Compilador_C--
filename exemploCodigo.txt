@@ -1,7 +1,9 @@
 main
 {
 ¬¬Declaração das variáveis
-float nota1, nota2, media
+float nota1
+float nota2
+float media
 bool aprovado
 
 aprovado = 's'
