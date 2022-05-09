@@ -220,15 +220,6 @@ def reservadas(token):
     elif token[0] == 'scan':
         token_lista.append(['scan', token[0]])
         del token[0]
-    elif token[0] == 'break':
-        token_lista.append(['palavra_reservada', token[0]])
-        del token[0]
-    elif token[0] == 'default':
-        token_lista.append(['palavra_reservada', token[0]])
-        del token[0]
-    elif token[0] == 'null':
-        token_lista.append(['palavra_reservada', token[0]])
-        del token[0]
     elif token[0] == 'true':
         token_lista.append(['booleano', token[0]])
         del token[0]
