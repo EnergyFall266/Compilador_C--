@@ -1,5 +1,8 @@
 pilha = []
-gramaticaItens = []
+gramaticaItens = [[2, 'A'], [8, 'A'], [4, 'B'], [2, 'B'], [2, 'C'], [2, 'C'], [2, 'C'], [2, 'C'],
+ [2, 'C'], [2, 'C'], [2, 'C'], [8, 'D'], [4, 'D'], [6, 'E'], [2, 'E'], [6, 'F'], [2, 'F'], [6, 'G'],
+ [2, 'H'], [2, 'H'], [8, 'I'], [4, 'I'], [2, 'I'], [6, 'I'], [6, 'J'], [2, 'K'], [6, 'K'], [18, 'L'],
+ [14, 'L'], [22, 'M'], [4, 'N'], [2, 'N'], [2, 'N'], [14, 'O'], [8, 'P'], [8, 'P'], [8, 'Q']]
 
 #listaToken = ['main', 'if']
 
@@ -138,3 +141,9 @@ def bottom_up(listaToken):
                 pilha.extend([token, 44])
     print(pilha)
 
+l1 = [2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 80, 99]
+print("Original list : ",l1)
+
+del l1[2:5]
+
+print("List after removing values at index 2, 3 and 4 : ",l1)
