@@ -2,6 +2,7 @@ from cmath import pi
 
 
 pilha = []
+global x
 #variavel de controle (se permanecer em 0 não é possível empilhar ou reduzir com os simbolos analisados, entao ha um erro no codigo)
 reduzOrEmpilha = 0
 #gramaticaItens = [qtd de itens a serem tirados da pilha, não terminal a ser colocado na pilha]
@@ -58,13 +59,14 @@ def goTo():
         elif(estado == 80):
             pilha.append(17)
     elif(topo == 'G'):
-        if(estado == 54 or estado == 70 or estado == 76):
-            pilha.append(82)
+        if(estado == 23 or estado == 54 or estado == 70 or estado == 76):
+            pilha.append(74)
         elif(estado == 57):
             pilha.append(59)
     elif(topo == 'H'):
-        if(estado == 23 or estado == 54 or estado == 70 or estado == 76):
-            pilha.append(74)
+        if(estado == 18 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
+         or estado == 70 or estado == 76 or estado == 80):
+            pilha.append(86)
         elif(estado == 66):
             pilha.append(68)
     elif(topo == 'I'):
@@ -104,26 +106,40 @@ def goTo():
     elif(topo == 'Q' and 
      (estado == 2 or estado == 5 or estado == 29 or estado == 45 or estado == 60 or estado == 67)):
         pilha.append(14)
+    elif(topo == 'R' and (estado == 18 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
+         or estado == 70 or estado == 76 or estado == 80)):
+        pilha.append(26)
 
 def reducao(producao):
+    global x
     #retira o número de elementos da pilha, de acordo com a produção utilizada
     del pilha[len(pilha)-producao[0]:]
     #empilha o não terminal do lado esquerdo da produção
     pilha.append(producao[1])
 
     reduzOrEmpilha = 1
+    x-= 1
 
     #desvio de acordo com os últimos dois elementos da pilha (estado e ultimo simbolo)
     goTo()
 
 def bottom_up(listaToken):
+    global x
     #inicia a pilha com um 0
     pilha.append(0)
     
-    for token in listaToken:
+    x = 0
+    while x < len(listaToken):
+    #for token in listaToken:
+
+        token = listaToken[x]
         #analisa ultimo elemento na pilha
         topoPilha = pilha[-1]
         reduzOrEmpilha = 0
+        print(pilha)
+        print(token)
+
+        x+= 1
         if(token == '$' and topoPilha == 0):
             #string aceita
             return 1
@@ -178,11 +194,18 @@ def bottom_up(listaToken):
             elif(topoPilha == 13):
                 pilha.extend([token, 15])
                 reduzOrEmpilha = 1
+            elif(topoPilha == 18 or topoPilha == 28 or topoPilha == 54 or topoPilha == 57 
+            or topoPilha == 61 or topoPilha == 66 or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
+                pilha.extend([token, 79])
+                reduzOrEmpilha = 1
             elif(topoPilha == 53):
                 pilha.extend([token, 83])
                 reduzOrEmpilha = 1
-            elif(topoPilha == 54 or topoPilha == 76):
-                pilha.extend([token, 79])
+            elif(topoPilha == 46):
+                pilha.extend([token, 48])
+                reduzOrEmpilha = 1
+            elif(topoPilha == 34):
+                pilha.extend([token, 38])
                 reduzOrEmpilha = 1
         elif(token == '='):
             if(topoPilha == 15):
@@ -192,18 +215,15 @@ def bottom_up(listaToken):
                 pilha.extend([token, 18])
                 reduzOrEmpilha = 1
         elif(token == 'operando'):
-            if(topoPilha == 18 or topoPilha == 54 or topoPilha == 57 or topoPilha == 61
+            if(topoPilha == 54 or topoPilha == 57 or topoPilha == 61
             or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
-                pilha.extend([token, 26])
-                reduzOrEmpilha = 1
-            elif(topoPilha == 34):
-                pilha.extend([token, 38])
+                pilha.extend([token, 85])
                 reduzOrEmpilha = 1
             elif(topoPilha == 39):
                 pilha.extend([token, 41])
                 reduzOrEmpilha = 1
-            elif(topoPilha == 46):
-                pilha.extend([token, 48])
+            elif(topoPilha == 18 or topoPilha == 28):
+                pilha.extend([token, 85])
                 reduzOrEmpilha = 1
         elif(token == 'operador_mul'):
             if(topoPilha == 26):
@@ -220,6 +240,9 @@ def bottom_up(listaToken):
         elif(token == 'op_logicos'):
             if(topoPilha == 74):
                 pilha.extend([token, 76])
+                reduzOrEmpilha = 1
+            elif(topoPilha == 68):
+                pilha.extend([token, 70])
                 reduzOrEmpilha = 1
         elif(token == '!'):
             if(topoPilha == 23 or topoPilha == 54 or topoPilha == 70 or topoPilha == 76):
@@ -327,7 +350,7 @@ def bottom_up(listaToken):
             elif(topoPilha == 19):
                 reducao(gramaticaItens[0])
             elif(topoPilha == 20):
-                reducao(gramaticaItens[24])
+                reducao(gramaticaItens[23])
             elif(topoPilha == 22 and token != 'operador_sum'):
                 reducao(gramaticaItens[16])
             elif(topoPilha == 26 and token != 'operador_mul'):
@@ -335,45 +358,49 @@ def bottom_up(listaToken):
             elif(topoPilha == 30):
                 reducao(gramaticaItens[13])
             elif(topoPilha == 33 and token != 'else'):
-                reducao(gramaticaItens[28])
-            elif(topoPilha == 37):
                 reducao(gramaticaItens[27])
+            elif(topoPilha == 37):
+                reducao(gramaticaItens[26])
             elif(topoPilha == 40):
-                reducao(gramaticaItens[35])
+                reducao(gramaticaItens[34])
             elif(topoPilha == 41):
                 reducao(gramaticaItens[11])
             elif(topoPilha == 42):
-                reducao(gramaticaItens[34])
-            elif(topoPilha == 43):
-                reducao(gramaticaItens[25])
-            elif(topoPilha == 49):
-                reducao(gramaticaItens[26])
-            elif(topoPilha == 50):
-                reducao(gramaticaItens[36])
-            elif(topoPilha == 64):
                 reducao(gramaticaItens[33])
-            elif(topoPilha == 68):
-                reducao(gramaticaItens[21])
-            elif(topoPilha == 71):
-                reducao(gramaticaItens[29])
-            elif(topoPilha == 72):
-                reducao(gramaticaItens[20])
-            elif(topoPilha == 74 and token != 'op_logicos'):
-                reducao(gramaticaItens[22])
-            elif(topoPilha == 75):
-                reducao(gramaticaItens[30])
-            elif(topoPilha == 77):
-                reducao(gramaticaItens[31])
-            elif(topoPilha == 78):
-                reducao(gramaticaItens[23])
-            elif(topoPilha == 79):
-                reducao(gramaticaItens[19])
-            elif(topoPilha == 82):
-                reducao(gramaticaItens[18])
-            elif(topoPilha == 83 and token != '='):
+            elif(topoPilha == 43):
+                reducao(gramaticaItens[24])
+            elif(topoPilha == 49):
+                reducao(gramaticaItens[25])
+            elif(topoPilha == 50):
+                reducao(gramaticaItens[35])
+            elif(topoPilha == 64):
                 reducao(gramaticaItens[32])
+            elif(topoPilha == 68 and token != 'op_logicos'):
+                reducao(gramaticaItens[20])
+            elif(topoPilha == 71):
+                reducao(gramaticaItens[28])
+            elif(topoPilha == 72):
+                reducao(gramaticaItens[19])
+            elif(topoPilha == 74 and token != 'op_logicos'):
+                reducao(gramaticaItens[21])
+            elif(topoPilha == 75):
+                reducao(gramaticaItens[29])
+            elif(topoPilha == 77):
+                reducao(gramaticaItens[30])
+            elif(topoPilha == 78):
+                reducao(gramaticaItens[22])
+            elif(topoPilha == 79):
+                reducao(gramaticaItens[18])
+            elif(topoPilha == 82):
+                reducao(gramaticaItens[21])
+            elif(topoPilha == 83 and token != '='):
+                reducao(gramaticaItens[31])
             elif(topoPilha == 84):
                 reducao(gramaticaItens[15])
+            elif(topoPilha == 85):
+                reducao(gramaticaItens[36])
+            elif(topoPilha == 86):
+                reducao(gramaticaItens[37])
         elif(reduzOrEmpilha == 0):
             #erro
             return 0

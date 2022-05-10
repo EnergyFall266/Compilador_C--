@@ -17,7 +17,7 @@ print("Digite a segunda nota do aluno: ")
 scan(nota)
 
 ¬¬Processamento
-media = (nota1 + nota2) / 2.567
+media = nota1 + nota2
 
 ¬¬Verifica aprovação
 if(media < 70+56)
