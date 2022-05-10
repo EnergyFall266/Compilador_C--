@@ -119,11 +119,11 @@ def reducao(producao):
 def bottom_up(listaToken):
     #inicia a pilha com um 0
     pilha.append(0)
-
+    
     for token in listaToken:
         #analisa ultimo elemento na pilha
         topoPilha = pilha[-1]
-
+        reduzOrEmpilha = 0
         if(token == '$' and topoPilha == 0):
             #string aceita
             return 1

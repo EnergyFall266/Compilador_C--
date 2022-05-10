@@ -36,7 +36,7 @@ def verificaNumero(numero, numeroLinha):
                         continue
                     break 
 
-                token_lista.append(['real', valor])
+                token_lista.append(['operando', valor])
                 break
             else:
                 #gerar token de erro (. sem um numero em seguida)
@@ -44,7 +44,7 @@ def verificaNumero(numero, numeroLinha):
                 break
         else:
             #gerar token numero inteiro
-            token_lista.append(['inteiro', valor])
+            token_lista.append(['operando', valor])
             break
 
 def tipo_dado(token):
@@ -219,7 +219,7 @@ def char_string(caracteres):
             verificaAspas = False
 
         elif token[i] == "'" and token[-2] == "'" and verificaAspas:
-            token_lista.append(['char', token[1]]) 
+            token_lista.append(['operando', token[1]]) 
             verificaAspas = False
     return len(token)
 
@@ -255,10 +255,10 @@ def reservadas(token):
         token_lista.append(['scan', token[0]])
         del token[:]
     elif token[0] == 'true':
-        token_lista.append(['booleano', token[0]])
+        token_lista.append(['operando', token[0]])
         del token[:]
     elif token[0] == 'false':
-        token_lista.append(['booleano', token[0]])
+        token_lista.append(['operando', token[0]])
         del token[:]
     elif token[0] == 'main':
         token_lista.append(['main', token[0]])

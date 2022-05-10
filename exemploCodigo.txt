@@ -31,7 +31,7 @@ aprovado = true
 print("Aluno aprovado!")
 }
 
-¬Saída
+¬¬Saída
 print("Media do aluno = ")
 print(media)
 }
