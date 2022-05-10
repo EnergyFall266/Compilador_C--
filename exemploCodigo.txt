@@ -1,7 +1,10 @@
 main
 {
 ¬¬Declaração das variáveis
-float nota1, nota2, media
+float nota1
+float nota2
+float nota
+float media
 bool aprovado
 
 aprovado = 's'
@@ -11,7 +14,7 @@ print("Digite a primeira nota do aluno: ")
 scan(nota1)
 
 print("Digite a segunda nota do aluno: ")
-scanf(nota)
+scan(nota)
 
 ¬¬Processamento
 media = (nota1 + nota2) / 2.567
@@ -20,12 +23,12 @@ media = (nota1 + nota2) / 2.567
 if(media < 70+56)
 {
 aprovado = false
-print(“Aluno reprovado!”)
+print("Aluno reprovado!")
 }
 else
 {
 aprovado = true
-print(“Aluno aprovado!”)
+print("Aluno aprovado!")
 }
 
 ¬Saída
