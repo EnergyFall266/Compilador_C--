@@ -8,8 +8,8 @@ reduzOrEmpilha = 0
 #gramaticaItens = [qtd de itens a serem tirados da pilha, não terminal a ser colocado na pilha]
 gramaticaItens = [[2, 'A'], [8, 'A'], [4, 'B'], [2, 'B'], [2, 'C'], [2, 'C'], [2, 'C'], [2, 'C'],
  [2, 'C'], [2, 'C'], [2, 'C'], [8, 'D'], [4, 'D'], [6, 'E'], [2, 'E'], [6, 'F'], [2, 'F'], [6, 'G'],
- [2, 'H'], [2, 'H'], [8, 'I'], [4, 'I'], [2, 'I'], [6, 'I'], [6, 'J'], [2, 'K'], [6, 'K'], [18, 'L'],
- [14, 'L'], [22, 'M'], [4, 'N'], [2, 'N'], [2, 'N'], [14, 'O'], [8, 'P'], [8, 'P'], [8, 'Q']]
+ [2, 'H'], [8, 'I'], [4, 'I'], [2, 'I'], [6, 'I'], [6, 'J'], [2, 'K'], [6, 'K'], [18, 'L'],
+ [14, 'L'], [22, 'M'], [4, 'N'], [2, 'N'], [2, 'N'], [14, 'O'], [8, 'P'], [8, 'P'], [8, 'Q'], [2, 'R'], [2, 'R']]
  #lista de simbolos terminais da gramatica
 listTerminais = ['main', '{', '}', 'tipo_dado', 'nome_variavel', '=', 'operando', 'operador_mul', 'operador_sum', 'op_relacional', 
 'op_logicos', '!', 'if', '(', ')', 'else', 'for', ';', 'while', 'print', 'cadeia_print', 'scan']
