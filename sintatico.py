@@ -42,7 +42,7 @@ def goTo():
         estado == 45 or estado == 60 or estado == 67)):
         pilha.append(7)
     elif(topo == 'E'):
-        if(estado == 18 or estado == 24 or estado == 54 or estado == 57 or estado == 61 or
+        if(estado == 18 or estado == 23 or estado == 24 or estado == 54 or estado == 57 or estado == 61 or
          estado == 70 or estado == 76 or estado == 80):
             pilha.append(22)
         elif(estado == 28):
@@ -52,7 +52,7 @@ def goTo():
             pilha.append(20)
         elif(estado == 24):
             pilha.append(84)
-        elif(estado == 54 or estado == 57 or estado == 70 or estado == 76):
+        elif(estado == 54 or estado == 23  or estado == 57 or estado == 70 or estado == 76):
             pilha.append(81)
         elif(estado == 61):
             pilha.append(63)
@@ -64,7 +64,7 @@ def goTo():
         elif(estado == 57):
             pilha.append(59)
     elif(topo == 'H'):
-        if(estado == 18 or estado == 24 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
+        if(estado == 18 or estado == 23 or estado == 24 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
          or estado == 70 or estado == 76 or estado == 80):
             pilha.append(86)
         elif(estado == 66):
@@ -106,7 +106,7 @@ def goTo():
     elif(topo == 'Q' and 
      (estado == 2 or estado == 5 or estado == 29 or estado == 45 or estado == 60 or estado == 67)):
         pilha.append(14)
-    elif(topo == 'R' and (estado == 18 or estado == 24 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
+    elif(topo == 'R' and (estado == 18 or estado == 23 or estado == 24 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
          or estado == 70 or estado == 76 or estado == 80)):
         pilha.append(26)
 
@@ -140,7 +140,7 @@ def bottom_up(listaToken):
         print(token)
 
         x+= 1
-        if(token == '$' and topoPilha == 0):
+        if(token == '$' and topoPilha == 19):
             #string aceita
             return 1
         elif(token == 'main' and topoPilha == 0):
@@ -194,7 +194,7 @@ def bottom_up(listaToken):
             elif(topoPilha == 13):
                 pilha.extend([token, 15])
                 reduzOrEmpilha = 1
-            elif(topoPilha == 18 or topoPilha == 24 or topoPilha == 28 or topoPilha == 54 or topoPilha == 57 
+            elif(topoPilha == 18 or topoPilha == 23 or topoPilha == 24 or topoPilha == 28 or topoPilha == 54 or topoPilha == 57 
             or topoPilha == 61 or topoPilha == 66 or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
                 pilha.extend([token, 79])
                 reduzOrEmpilha = 1
@@ -215,7 +215,7 @@ def bottom_up(listaToken):
                 pilha.extend([token, 18])
                 reduzOrEmpilha = 1
         elif(token == 'operando'):
-            if(topoPilha == 24 or topoPilha == 54 or topoPilha == 57 or topoPilha == 61
+            if(topoPilha == 24 or topoPilha == 23 or topoPilha == 54 or topoPilha == 57 or topoPilha == 61
             or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
                 pilha.extend([token, 85])
                 reduzOrEmpilha = 1
