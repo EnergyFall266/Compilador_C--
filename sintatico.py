@@ -42,7 +42,7 @@ def goTo():
         estado == 45 or estado == 60 or estado == 67)):
         pilha.append(7)
     elif(topo == 'E'):
-        if(estado == 18 or estado == 54 or estado == 57 or estado == 61 or
+        if(estado == 18 or estado == 24 or estado == 54 or estado == 57 or estado == 61 or
          estado == 70 or estado == 76 or estado == 80):
             pilha.append(22)
         elif(estado == 28):
@@ -64,7 +64,7 @@ def goTo():
         elif(estado == 57):
             pilha.append(59)
     elif(topo == 'H'):
-        if(estado == 18 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
+        if(estado == 18 or estado == 24 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
          or estado == 70 or estado == 76 or estado == 80):
             pilha.append(86)
         elif(estado == 66):
@@ -106,7 +106,7 @@ def goTo():
     elif(topo == 'Q' and 
      (estado == 2 or estado == 5 or estado == 29 or estado == 45 or estado == 60 or estado == 67)):
         pilha.append(14)
-    elif(topo == 'R' and (estado == 18 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
+    elif(topo == 'R' and (estado == 18 or estado == 24 or estado == 28 or estado == 54 or estado == 57 or estado == 61 
          or estado == 70 or estado == 76 or estado == 80)):
         pilha.append(26)
 
@@ -215,7 +215,7 @@ def bottom_up(listaToken):
                 pilha.extend([token, 18])
                 reduzOrEmpilha = 1
         elif(token == 'operando'):
-            if(topoPilha == 54 or topoPilha == 57 or topoPilha == 61
+            if(topoPilha == 24 or topoPilha == 54 or topoPilha == 57 or topoPilha == 61
             or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
                 pilha.extend([token, 85])
                 reduzOrEmpilha = 1
@@ -327,6 +327,8 @@ def bottom_up(listaToken):
             #se entrar nesse if, significa que nenhum simbolo foi empilhado e será feita a análise de reduções se for um simbolo terminal
             if(topoPilha == 4):
                 reducao(gramaticaItens[1])
+            elif(topoPilha == 5 and token != 'tipo_dado' and token != 'nome_variavel'):
+                reducao(gramaticaItens[3])
             elif(topoPilha == 6):
                 reducao(gramaticaItens[2])
             elif(topoPilha == 7):
