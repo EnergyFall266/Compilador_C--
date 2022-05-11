@@ -12,7 +12,7 @@ gramaticaItens = [[2, 'A'], [8, 'A'], [4, 'B'], [2, 'B'], [2, 'C'], [2, 'C'], [2
  [14, 'L'], [22, 'M'], [4, 'N'], [2, 'N'], [2, 'N'], [14, 'O'], [8, 'P'], [8, 'P'], [8, 'Q'], [2, 'R'], [2, 'R']]
  #lista de simbolos terminais da gramatica
 listTerminais = ['main', '{', '}', 'tipo_dado', 'nome_variavel', '=', 'operando', 'operador_mul', 'operador_sum', 'op_relacional', 
-'op_logicos', '!', 'if', '(', ')', 'else', 'for', ';', 'while', 'print', 'cadeia_print', 'scan']
+'op_logicos', '!', 'if', '(', ')', 'else', 'for', ';', 'while', 'print', 'cadeia_print', 'scan', '$']
 
 #listaToken = ['main', 'if']
 
