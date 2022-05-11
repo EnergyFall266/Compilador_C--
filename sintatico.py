@@ -194,7 +194,7 @@ def bottom_up(listaToken):
             elif(topoPilha == 13):
                 pilha.extend([token, 15])
                 reduzOrEmpilha = 1
-            elif(topoPilha == 18 or topoPilha == 28 or topoPilha == 54 or topoPilha == 57 
+            elif(topoPilha == 18 or topoPilha == 24 or topoPilha == 28 or topoPilha == 54 or topoPilha == 57 
             or topoPilha == 61 or topoPilha == 66 or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
                 pilha.extend([token, 79])
                 reduzOrEmpilha = 1
