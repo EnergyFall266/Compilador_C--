@@ -11,7 +11,7 @@ aprovado = 's'
 
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
-scan(nota1)
+scan (nota1)
 
 print("Digite a segunda nota do aluno: ")
 scan(nota)
@@ -20,7 +20,7 @@ scan(nota)
 media = nota1 + nota2
 
 ¬¬Verifica aprovação
-if(media < 70+56)
+if media < 70+56)
 {
 aprovado = false
 print("Aluno reprovado!")

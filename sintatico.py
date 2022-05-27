@@ -1,10 +1,11 @@
 from cmath import pi
+from glob import glob
 
 
 pilha = []
 global x
 #variavel de controle (se permanecer em 0 não é possível empilhar ou reduzir com os simbolos analisados, entao ha um erro no codigo)
-reduzOrEmpilha = 0
+global reduzOrEmpilha 
 #gramaticaItens = [qtd de itens a serem tirados da pilha, não terminal a ser colocado na pilha]
 gramaticaItens = [[2, 'A'], [8, 'A'], [4, 'B'], [2, 'B'], [2, 'C'], [2, 'C'], [2, 'C'], [2, 'C'],
  [2, 'C'], [2, 'C'], [2, 'C'], [8, 'D'], [4, 'D'], [6, 'E'], [2, 'E'], [6, 'F'], [2, 'F'], [6, 'G'],
@@ -112,6 +113,7 @@ def goTo():
 
 def reducao(producao):
     global x
+    global reduzOrEmpilha
     #retira o número de elementos da pilha, de acordo com a produção utilizada
     del pilha[len(pilha)-producao[0]:]
     #empilha o não terminal do lado esquerdo da produção
@@ -125,6 +127,7 @@ def reducao(producao):
 
 def bottom_up(listaToken):
     global x
+    global reduzOrEmpilha
     #inicia a pilha com um 0
     pilha.append(0)
     
@@ -403,6 +406,7 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
                 reducao(gramaticaItens[37])
-        elif(reduzOrEmpilha == 0):
+        if(reduzOrEmpilha == 0):
             #erro
+            print("Termo não esperado: ", token)
             return 0
