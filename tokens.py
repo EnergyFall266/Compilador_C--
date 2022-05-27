@@ -16,9 +16,6 @@ lista_variaveis = []
 
 digitos = string.digits
 
-def geraErro(caractere, numeroLinha):
-    token_lista.append(['erro', caractere, numeroLinha])
-
 def verificaNumero(numero, numeroLinha):
     valor=numero[0]
     for i in range(len(numero)):
@@ -36,123 +33,122 @@ def verificaNumero(numero, numeroLinha):
                         continue
                     break 
 
-                token_lista.append(['operando', valor])
+                token_lista.append(['operando', valor, numeroLinha])
                 break
             else:
                 #gerar token de erro (. sem um numero em seguida)
-                token_lista.append(['erro', numero[i+2], numeroLinha])
+                print("Termo não esperado: ", valor)
+                print("Linha: ", numeroLinha)
                 break
         else:
             #gerar token numero inteiro
-            token_lista.append(['operando', valor])
+            token_lista.append(['operando', valor, numeroLinha])
             break
 
-def tipo_dado(token):
+def tipo_dado(token, numeroLinha):
     global token_lista, lista_variaveis
      
     if token[0] == 'int':
-        token_lista.append(['tipo_dado', token[0]])
+        token_lista.append(['tipo_dado', token[0], numeroLinha])
         del token[0]
         lista_variaveis.extend(token)
         # del token[:]
 
     elif token[0] == 'float':
-        token_lista.append(['tipo_dado', token[0]])
+        token_lista.append(['tipo_dado', token[0], numeroLinha])
         del token[0]
         lista_variaveis.extend(token)
         # del token[:]
 
     elif token[0] == 'char':
-        token_lista.append(['tipo_dado', token[0]])
+        token_lista.append(['tipo_dado', token[0], numeroLinha])
         del token[0]
         lista_variaveis.extend(token)
         # del token[:]
 
     elif token[0] == 'bool':
-        token_lista.append(['tipo_dado', token[0]])
+        token_lista.append(['tipo_dado', token[0], numeroLinha])
         del token[0]
         lista_variaveis.extend(token)
         # del token[:]
     if len(token)!=0:
         reservadas(token)
     
-def comparacao(token):
+def comparacao(token, numeroLinha):
     for i in range(len(token)):    
         if token[i] == '>':
             if token[i+1] == '=':
-                token_lista.append(['op_relacional', token[i]+token[i+1]])
+                token_lista.append(['op_relacional', token[i]+token[i+1], numeroLinha])
                 # token=token.replace(">=", " ")
                 return 2
             else:
-                token_lista.append(['op_relacional', token[i]])
+                token_lista.append(['op_relacional', token[i], numeroLinha])
                 # token=token.replace(">", " ")
                 return 1
         elif token[i] == '<':
             if token[i+1] == '=':
-                token_lista.append(['op_relacional', token[i]+token[i+1]])
+                token_lista.append(['op_relacional', token[i]+token[i+1], numeroLinha])
                 # token=token.replace("<=", " ")
                 return 2
             elif token [i+1] == '>':
-                token_lista.append(['op_relacional', token[i]+token[i+1]])
+                token_lista.append(['op_relacional', token[i]+token[i+1], numeroLinha])
                 # token=token.replace("<>", " ")
                 return 2
             else:
-                token_lista.append(['op_relacional', token[i]])
+                token_lista.append(['op_relacional', token[i], numeroLinha])
                 # token=token.replace("<", " ")
                 return 1
 
         elif token[i] == '=':
             if token[i+1] == '=':
-                token_lista.append(['op_relacional', token[i]+token[i+1]])
+                token_lista.append(['op_relacional', token[i]+token[i+1], numeroLinha])
                 # token=token.replace("==", " ")
                 return 2
                 
             else:
-                token_lista.append(['=', token[i]])
+                token_lista.append(['=', token[i], numeroLinha])
                 token=token.replace("=", " ")
                 return 1
         elif token[i] == '!':
-            token_lista.append(['!', token[i]])
+            token_lista.append(['!', token[i], numeroLinha])
             # token=token.replace("!", " ")
             return 1
 
-
-
-def simbolos(token):
+def simbolos(token, numeroLinha):
     if token == ',':
         token=token.replace(",", " ")
     elif token == '(':
-        token_lista.append(['(',token])
+        token_lista.append(['(',token], numeroLinha)
         # token=token.replace("(", " ")
     elif token == ')':
-        token_lista.append([')', token])
+        token_lista.append([')', token], numeroLinha)
         # token=token.replace(")", "")
     elif token == '{':
-        token_lista.append(['{',token])
+        token_lista.append(['{',token], numeroLinha)
         # token=token.replace("{", " ")
     elif token == '}':
-        token_lista.append(['}',token])
+        token_lista.append(['}',token], numeroLinha)
         # token=token.replace("}", "")
     elif token == ':':
-        token_lista.append([':',token])
+        token_lista.append([':',token], numeroLinha)
         # token=token.replace(":", " ")
     elif token == ';':
-        token_lista.append([';',token])
+        token_lista.append([';',token], numeroLinha)
         # token=token.replace(";", " ")
     elif token == '+':
-        token_lista.append(['operador_sum', token])
+        token_lista.append(['operador_sum', token, numeroLinha])
     elif token == '-':
-        token_lista.append(['operador_sum', token])
+        token_lista.append(['operador_sum', token, numeroLinha])
     elif token == '*':
-        token_lista.append(['operador_mul',token])
+        token_lista.append(['operador_mul',token, numeroLinha])
     elif token == '/':
-        token_lista.append(['operador_mul',token])
+        token_lista.append(['operador_mul',token, numeroLinha])
     elif token == '&':
-        token_lista.append(['op_logicos',token])
+        token_lista.append(['op_logicos',token, numeroLinha])
     elif token == '|':
-        token_lista.append(['op_logicos',token])
+        token_lista.append(['op_logicos',token, numeroLinha])
 
-def operadorSimbolos(caracteres):   
+def operadorSimbolos(caracteres, numeroLinha):   
     global token, token_lista
     
     token=caracteres
@@ -163,7 +159,7 @@ def operadorSimbolos(caracteres):
             vav=token.split(" ")  
             for indice in range(len(lista_variaveis)):
                 if vav[0] == lista_variaveis[indice]:
-                    token_lista.append(['nome_variavel', vav[0]])
+                    token_lista.append(['nome_variavel', vav[0], numeroLinha])
                     token = '#'+token[1:]
                     del vav[0]
                     return
@@ -208,60 +204,60 @@ def operadorSimbolos(caracteres):
     if len(token)!=0:
         tipo_dado(token)
      
-def char_string(caracteres):
+def char_string(caracteres, numeroLinha):
     global token, token_lista
     verificaAspas = True
 
     token = caracteres
     for i in range(len(token)):
         if token[i] == '"' and token[-1] == '"' and verificaAspas:
-            token_lista.append(['cadeia_print', token[1:-2]])
+            token_lista.append(['cadeia_print', token[1:-2], numeroLinha])
             verificaAspas = False
 
         elif token[i] == "'" and token[-2] == "'" and verificaAspas:
-            token_lista.append(['operando', token[1]]) 
+            token_lista.append(['operando', token[1], numeroLinha]) 
             verificaAspas = False
     return len(token)
 
-def operandos(token):
+def operandos(token, numeroLinha):
     global token_lista, lista_variaveis
     # print("variaveis")
     # print(lista_variaveis)
     for k in range(len(token)):
         for indice in range(len(lista_variaveis)):
             if token[k] == lista_variaveis[indice]:
-                token_lista.append(['nome_variavel', token[k]])
+                token_lista.append(['nome_variavel', token[k], numeroLinha])
                 
 
-def reservadas(token):
+def reservadas(token, numeroLinha):
     global token_lista
 
     if token[0] == "if":
-        token_lista.append(['if', token[0]])
+        token_lista.append(['if', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'else':
-        token_lista.append(['else', token[0]])
+        token_lista.append(['else', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'for':
-        token_lista.append(['for', token[0]])
+        token_lista.append(['for', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'while':
-        token_lista.append(['while', token[0]])
+        token_lista.append(['while', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'print':
-        token_lista.append(['print', token[0]])
+        token_lista.append(['print', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'scan':
-        token_lista.append(['scan', token[0]])
+        token_lista.append(['scan', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'true':
-        token_lista.append(['operando', token[0]])
+        token_lista.append(['operando', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'false':
-        token_lista.append(['operando', token[0]])
+        token_lista.append(['operando', token[0], numeroLinha])
         del token[:]
     elif token[0] == 'main':
-        token_lista.append(['main', token[0]])
+        token_lista.append(['main', token[0], numeroLinha])
         del token[:]
     
     if len(token)!=0:
