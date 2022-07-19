@@ -14,7 +14,7 @@ gramaticaItens = [[2, 'A'], [8, 'A'], [4, 'B'], [2, 'B'], [2, 'C'], [2, 'C'], [2
  #lista de simbolos terminais da gramatica
 listTerminais = ['main', '{', '}', 'tipo_dado', 'nome_variavel', '=', 'operando', 'operador_mul', 'operador_sum', 'op_relacional', 
 'op_logicos', '!', 'if', '(', ')', 'else', 'for', ';', 'while', 'print', 'cadeia_print', 'scan', '$']
-global listaTipos
+listaTipos = []
 
 #listaToken = ['main', 'if']
 
@@ -129,6 +129,7 @@ def reducao(producao):
 def bottom_up(listaToken):
     global x
     global reduzOrEmpilha
+    global listaTipos
     #inicia a pilha com um 0
     pilha.append(0)
     
@@ -150,6 +151,7 @@ def bottom_up(listaToken):
         x+= 1
         if(token == '$' and topoPilha == 19):
             #string aceita
+            print(listaTipos)
             return 1
         elif(token == 'main' and topoPilha == 0):
             pilha.extend([token, 1])
@@ -367,6 +369,7 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[10])
             elif(topoPilha == 15 and token != '='):
                 #declaracao variavel
+                listaTipos.append([ultimoNomeVar, ultimoTipo])
                 reducao(gramaticaItens[12])
             elif(topoPilha == 17):
                 #operacao relacional
@@ -400,12 +403,29 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[25])
             elif(topoPilha == 50):
                 #scan
-                reducao(gramaticaItens[35])
+                nomes = [x[0] for x in listaTipos]
+                #verifica se a variavel dentro do scan ja foi declarada
+                if(ultimoNomeVar in nomes):
+                    reducao(gramaticaItens[35])
+                else:
+                    print("variável não declarada")
+                    reduzOrEmpilha = 0
             elif(topoPilha == 64):
                 reducao(gramaticaItens[32])
             elif(topoPilha == 68 and token != 'op_logicos'):
                 #not
-                reducao(gramaticaItens[20])
+                nomes = [x[0] for x in listaTipos]
+                #verifica se a variavel dentro do not ja foi declarada
+                if(ultimoNomeVar in nomes):
+                    for elemento in listaTipos:
+                        if(elemento[0] == ultimoNomeVar):
+                            if(elemento[1] == "bool"):
+                                reducao(gramaticaItens[20])
+                            else:
+                                print("tipo nao compativel")
+                else:
+                    print("variável não declarada")
+                
             elif(topoPilha == 71):
                 reducao(gramaticaItens[28])
             elif(topoPilha == 72):
