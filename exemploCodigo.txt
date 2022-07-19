@@ -1,8 +1,8 @@
 main
 {
 ¬¬Declaração das variáveis
-float nota1 
-float nota2 
+int nota1 = 34
+float nota2 = 87.6
 float nota 
 float media
 bool aprovado 
@@ -18,7 +18,7 @@ print("Digite a segunda nota do aluno: ")
 scan(nota)
 
 ¬¬Processamento
-media = 56 + nota2
+media = 44 + nota2
 
 ¬¬Verifica aprovação
 if (media < 70+56)

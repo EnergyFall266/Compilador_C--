@@ -230,7 +230,7 @@ def operandos(token, numeroLinha):
     for k in range(len(token)):
         if "\'" in token[k]:
             continue
-        if token[k] in lista_variaveis and not token[k].isnumeric():
+        if token[k] in lista_variaveis and not token[k].isnumeric() and '.' not in token[k]:
             token_lista.append(['nome_variavel', token[k], numeroLinha])
         elif token[k] not in lista_variaveis and not token[k].isnumeric():
             print(f'\nLinha {numeroLinha} -> variavel {token[k]} nao declarada\n')

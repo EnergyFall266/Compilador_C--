@@ -125,9 +125,10 @@ def reducao(producao):
     goTo()
 
 def bottom_up(listaToken):
-    global x
+    global x, valor1, valor2
     global reduzOrEmpilha
     global listaTipos
+
     #inicia a pilha com um 0
     pilha.append(0)
     
@@ -239,11 +240,21 @@ def bottom_up(listaToken):
             if(topoPilha == 24 or topoPilha == 23 or topoPilha == 18 or topoPilha == 28 or topoPilha == 54 
             or topoPilha == 57 or topoPilha == 61 or topoPilha == 70 or topoPilha == 76 or topoPilha == 80):
                 pilha.extend([token, 85])
-                ultimoTipoOperando = type(tokenItem[1])
+                ultimoOperando = tokenItem[1]
+                if tokenItem[1].isnumeric():
+                    tipoOperando = 'int'
+                elif ('.' in tokenItem[1]):
+                    tipoOperando = 'float'
+                  
+                
                 reduzOrEmpilha = 1
             elif(topoPilha == 39):
                 pilha.extend([token, 41])
-                ultimoTipoOperando = type(tokenItem[1])
+                ultimoOperando = tokenItem[1]
+                if tokenItem[1].isnumeric():
+                    tipoOperando = 'int'
+                if ('.' in tokenItem[1]):
+                    tipoOperando = 'float'
                 reduzOrEmpilha = 1
         elif(token == 'operador_mul'):
             if(topoPilha == 26):
@@ -367,7 +378,7 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[10])
             elif(topoPilha == 15 and token != '='):
                 #declaracao variavel
-                listaTipos.append([ultimoNomeVar, ultimoTipo, 0])
+                listaTipos.append([ultimoNomeVar, ultimoTipo, ""])
                 reducao(gramaticaItens[12])
             elif(topoPilha == 17):
                 #operacao relacional
@@ -376,6 +387,7 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[0])
             elif(topoPilha == 20):
                 #atribuicao com operacao (sum/mul)
+                # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                 reducao(gramaticaItens[23])
             elif(topoPilha == 22 and token != 'operador_sum'):
                 reducao(gramaticaItens[16])
@@ -392,10 +404,13 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[34])
             elif(topoPilha == 41):
                 #declaracao da variavel com atribuicao
-                if(ultimoTipoOperando == "str"):
-                    ultimoTipoOperando = "char"
-                if(ultimoTipo == ultimoTipoOperando):
-                    listaTipos.append([ultimoNomeVar, ultimoTipo, 1])
+                if(tipoOperando == "str"):
+                    tipoOperando = "char"
+                print(ultimoTipo)
+                print(tipoOperando)
+                if(ultimoTipo == tipoOperando):
+                    print(ultimoOperando)
+                    listaTipos.append([ultimoNomeVar, ultimoTipo, ultimoOperando])
                     reducao(gramaticaItens[11])
                 else:
                     print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]-1} -> Tipo da variável {ultimoNomeVar} é incompatível    \n')
@@ -436,6 +451,7 @@ def bottom_up(listaToken):
                 #operacao logica (dois operandos)
                 reducao(gramaticaItens[22])
             elif(topoPilha == 79):
+                valor1 = ultimoNomeVar
                 reducao(gramaticaItens[18])
             elif(topoPilha == 82):
                 reducao(gramaticaItens[21])
@@ -445,6 +461,7 @@ def bottom_up(listaToken):
                 #soma
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
+                valor1 = ultimoOperando
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
                 reducao(gramaticaItens[37])
