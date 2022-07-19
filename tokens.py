@@ -72,7 +72,7 @@ def tipo_dado(token, numeroLinha):
         lista_variaveis.extend(token)
         # del token[:]
     if len(token)!=0:
-        reservadas(token)
+        reservadas(token, numeroLinha)
     
 def comparacao(token, numeroLinha):
     for i in range(len(token)):    
@@ -118,22 +118,22 @@ def simbolos(token, numeroLinha):
     if token == ',':
         token=token.replace(",", " ")
     elif token == '(':
-        token_lista.append(['(',token], numeroLinha)
+        token_lista.append(['(',token, numeroLinha])
         # token=token.replace("(", " ")
     elif token == ')':
-        token_lista.append([')', token], numeroLinha)
+        token_lista.append([')', token, numeroLinha])
         # token=token.replace(")", "")
     elif token == '{':
-        token_lista.append(['{',token], numeroLinha)
+        token_lista.append(['{',token, numeroLinha])
         # token=token.replace("{", " ")
     elif token == '}':
-        token_lista.append(['}',token], numeroLinha)
+        token_lista.append(['}',token, numeroLinha])
         # token=token.replace("}", "")
     elif token == ':':
-        token_lista.append([':',token], numeroLinha)
+        token_lista.append([':',token, numeroLinha])
         # token=token.replace(":", " ")
     elif token == ';':
-        token_lista.append([';',token], numeroLinha)
+        token_lista.append([';',token, numeroLinha])
         # token=token.replace(";", " ")
     elif token == '+':
         token_lista.append(['operador_sum', token, numeroLinha])
@@ -202,7 +202,7 @@ def operadorSimbolos(caracteres, numeroLinha):
             exclui+=1   
 
     if len(token)!=0:
-        tipo_dado(token)
+        tipo_dado(token, numeroLinha)
      
 def char_string(caracteres, numeroLinha):
     global token, token_lista
@@ -261,4 +261,4 @@ def reservadas(token, numeroLinha):
         del token[:]
     
     if len(token)!=0:
-        operandos(token)
+        operandos(token, numeroLinha)

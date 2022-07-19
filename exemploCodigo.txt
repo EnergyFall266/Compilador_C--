@@ -4,7 +4,7 @@ main
 float nota1
 float nota2
 float nota
-float media
+float media = 4
 bool aprovado
 
 aprovado = 's'
@@ -20,7 +20,7 @@ scan(nota)
 media = nota1 + nota2
 
 ¬¬Verifica aprovação
-if media < 70+56)
+if (media < 70+56)
 {
 aprovado = false
 print("Aluno reprovado!")

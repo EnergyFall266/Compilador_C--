@@ -55,13 +55,10 @@ if __name__ == "__main__":
     token.token_lista.append('$')
 
     #filtra apenas os tokens 
-    tokens = [x[0] for x in token.token_lista]
-
-    #listTokensSintaticoTeste = ['main', 'if', 'B', 'A']
-    #sintatico.bottom_up(listTokensSintaticoTeste)
+    #tokens = [x[0] for x in token.token_lista]
 
     #analiseSintatica = 0 -> erro; analiseSintatica = 1 -> string aceita
-    analiseSintatica = sintatico.bottom_up(tokens)
-    print("analise sintatica", analiseSintatica)
+    analiseSintatica = sintatico.bottom_up(token.token_lista)
+    
 
                  
