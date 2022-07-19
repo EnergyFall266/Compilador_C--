@@ -190,6 +190,8 @@ def operadorSimbolos(caracteres, numeroLinha):
             token=token.replace(":", " ")
         elif token[i] == ';':
             token=token.replace(";", " ")
+        elif token[i] == '=':
+            token=token.replace("=", " ")
 
         
         
@@ -225,7 +227,7 @@ def operandos(token, numeroLinha):
     # print(lista_variaveis)
     for k in range(len(token)):
         for indice in range(len(lista_variaveis)):
-            if token[k] == lista_variaveis[indice]:
+            if token[k] == lista_variaveis[indice] and not token[k].isnumeric():
                 token_lista.append(['nome_variavel', token[k], numeroLinha])
                 
 
