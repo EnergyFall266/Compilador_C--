@@ -192,7 +192,9 @@ def operadorSimbolos(caracteres, numeroLinha):
             token=token.replace(";", " ")
         elif token[i] == '=':
             token=token.replace("=", " ")
-
+        elif token[i] == '!':
+            token=token.replace("!", " ")
+        
         
         
     token=token.split(" ")  
@@ -223,13 +225,15 @@ def char_string(caracteres, numeroLinha):
 
 def operandos(token, numeroLinha):
     global token_lista, lista_variaveis
-    # print("variaveis")
-    # print(lista_variaveis)
+
     for k in range(len(token)):
-        for indice in range(len(lista_variaveis)):
-            if token[k] == lista_variaveis[indice] and not token[k].isnumeric():
-                token_lista.append(['nome_variavel', token[k], numeroLinha])
-                
+        if "\'" in token[k]:
+            continue
+        if token[k] in lista_variaveis and not token[k].isnumeric():
+            token_lista.append(['nome_variavel', token[k], numeroLinha])
+        elif token[k] not in lista_variaveis and not token[k].isnumeric():
+            print(f'\nLinha {numeroLinha} -> variavel {token[k]} nao declarada\n')
+            exit(0)
 
 def reservadas(token, numeroLinha):
     global token_lista

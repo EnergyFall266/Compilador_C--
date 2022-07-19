@@ -1,5 +1,3 @@
-from cmath import pi
-from glob import glob
 
 
 pilha = []
@@ -369,7 +367,7 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[10])
             elif(topoPilha == 15 and token != '='):
                 #declaracao variavel
-                listaTipos.append([ultimoNomeVar, ultimoTipo])
+                listaTipos.append([ultimoNomeVar, ultimoTipo, 0])
                 reducao(gramaticaItens[12])
             elif(topoPilha == 17):
                 #operacao relacional
@@ -394,7 +392,14 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[34])
             elif(topoPilha == 41):
                 #declaracao da variavel com atribuicao
-                reducao(gramaticaItens[11])
+                if(ultimoTipoOperando == "str"):
+                    ultimoTipoOperando = "char"
+                if(ultimoTipo == ultimoTipoOperando):
+                    listaTipos.append([ultimoNomeVar, ultimoTipo, 1])
+                    reducao(gramaticaItens[11])
+                else:
+                    print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]-1} -> Tipo da variável {ultimoNomeVar} é incompatível    \n')
+                    exit()
             elif(topoPilha == 42):
                 reducao(gramaticaItens[33])
             elif(topoPilha == 43):
@@ -403,29 +408,18 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[25])
             elif(topoPilha == 50):
                 #scan
-                nomes = [x[0] for x in listaTipos]
-                #verifica se a variavel dentro do scan ja foi declarada
-                if(ultimoNomeVar in nomes):
-                    reducao(gramaticaItens[35])
-                else:
-                    print("variável não declarada")
-                    reduzOrEmpilha = 0
+                reducao(gramaticaItens[35])
             elif(topoPilha == 64):
                 reducao(gramaticaItens[32])
             elif(topoPilha == 68 and token != 'op_logicos'):
                 #not
-                nomes = [x[0] for x in listaTipos]
-                #verifica se a variavel dentro do not ja foi declarada
-                if(ultimoNomeVar in nomes):
-                    for elemento in listaTipos:
-                        if(elemento[0] == ultimoNomeVar):
-                            if(elemento[1] == "bool"):
-                                reducao(gramaticaItens[20])
-                            else:
-                                print("tipo nao compativel")
-                else:
-                    print("variável não declarada")
-                
+                for elemento in listaTipos:
+                    if(elemento[0] == ultimoNomeVar):
+                        if(elemento[1] == "bool"):
+                            reducao(gramaticaItens[20])
+                        else:
+                            print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
+                            exit()
             elif(topoPilha == 71):
                 reducao(gramaticaItens[28])
             elif(topoPilha == 72):
@@ -434,7 +428,7 @@ def bottom_up(listaToken):
             elif(topoPilha == 74 and token != 'op_logicos'):
                 reducao(gramaticaItens[21])
             elif(topoPilha == 75):
-                #declaracao variavel
+                #declaracao variavel com atribuição de operação
                 reducao(gramaticaItens[29])
             elif(topoPilha == 77):
                 reducao(gramaticaItens[30])
@@ -456,6 +450,6 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[37])
         if(reduzOrEmpilha == 0):
             #erro
-            print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Termo não esperado {tokenItem[1]}     ')
+            print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Termo não esperado {tokenItem[1]}     \n')
 
             return 0

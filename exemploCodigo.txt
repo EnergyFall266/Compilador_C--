@@ -1,23 +1,24 @@
 main
 {
 ¬¬Declaração das variáveis
-float nota1
-float nota2
-float nota
-float media = 4
-bool aprovado
+float nota1 
+float nota2 
+float nota 
+float media
+bool aprovado 
+bool teste
 
 aprovado = 's'
 
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
-scan (nota1)
+scan(nota1)
 
 print("Digite a segunda nota do aluno: ")
 scan(nota)
 
 ¬¬Processamento
-media = nota1 + nota2
+media = 56 + nota2
 
 ¬¬Verifica aprovação
 if (media < 70+56)
@@ -34,4 +35,5 @@ print("Aluno aprovado!")
 ¬¬Saída
 print("Media do aluno = ")
 print(media)
+
 }
