@@ -42,7 +42,8 @@ if __name__ == "__main__":
                     char += (move-1)
                 elif(linha[char].isnumeric() and linha[char-1] not in pattern):
                     #verificar se é inteiro ou real e gera seu respectivo token
-                    token.verificaNumero(linha[char:], numeroLinha)
+                    move = token.verificaNumero(linha[char:], numeroLinha)
+                    char += (move-1)
                 elif(linha[char].isalnum and verificaCaractere and not linha[char]==' '):
                     #verificar se é alguma palavra, operando ou operador
                     token.operadorSimbolos(linha[char:-1], numeroLinha)

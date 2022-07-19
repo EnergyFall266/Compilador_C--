@@ -44,6 +44,7 @@ def verificaNumero(numero, numeroLinha):
             #gerar token numero inteiro
             token_lista.append(['operando', valor, numeroLinha])
             break
+    return len(valor)
 
 def tipo_dado(token, numeroLinha):
     global token_lista, lista_variaveis
