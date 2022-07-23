@@ -1,6 +1,10 @@
 
 
+from xml.etree.ElementTree import ElementTree
+
+
 pilha = []
+pilhaOperandos = []
 global x
 #variavel de controle (se permanecer em 0 não é possível empilhar ou reduzir com os simbolos analisados, entao ha um erro no codigo)
 global reduzOrEmpilha 
@@ -125,7 +129,7 @@ def reducao(producao):
     goTo()
 
 def bottom_up(listaToken):
-    global x, valor1, valor2
+    global x
     global reduzOrEmpilha
     global listaTipos
 
@@ -261,7 +265,24 @@ def bottom_up(listaToken):
                 pilha.extend([token, 28])
                 reduzOrEmpilha = 1
         elif(token == 'operador_sum'):
+            print("PILHA", pilhaOperandos)
             if(topoPilha == 22):
+                nomes = [x[0] for x in listaTipos]
+                print(nomes)
+                print(pilhaOperandos[-1])
+                if(pilhaOperandos[-1] in nomes):
+                    for elemento in listaTipos:
+                        print(ultimoNomeVar)
+                        if elemento[0] == ultimoNomeVar:
+                            if elemento[1] == "int":
+                                valor = int(elemento[2])
+                                pilhaOperandos.append(valor)
+                            elif elemento[1] == "float":
+                                valor = float(elemento[2])
+                                pilhaOperandos.append(valor)
+                            else:
+                                print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
+                
                 pilha.extend([token, 24])
                 reduzOrEmpilha = 1
         elif(token == 'op_relacional'):
@@ -386,8 +407,7 @@ def bottom_up(listaToken):
             elif(topoPilha == 19):
                 reducao(gramaticaItens[0])
             elif(topoPilha == 20):
-                #atribuicao com operacao (sum/mul)
-                # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                #atribuicao 
                 reducao(gramaticaItens[23])
             elif(topoPilha == 22 and token != 'operador_sum'):
                 reducao(gramaticaItens[16])
@@ -450,8 +470,7 @@ def bottom_up(listaToken):
             elif(topoPilha == 78):
                 #operacao logica (dois operandos)
                 reducao(gramaticaItens[22])
-            elif(topoPilha == 79):
-                valor1 = ultimoNomeVar
+            elif(topoPilha == 79):                
                 reducao(gramaticaItens[18])
             elif(topoPilha == 82):
                 reducao(gramaticaItens[21])
@@ -461,7 +480,8 @@ def bottom_up(listaToken):
                 #soma
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
-                valor1 = ultimoOperando
+                if ultimoOperando != "str": 
+                    pilhaOperandos.append(ultimoOperando)
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
                 reducao(gramaticaItens[37])
@@ -470,3 +490,7 @@ def bottom_up(listaToken):
             print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Termo não esperado {tokenItem[1]}     \n')
 
             return 0
+
+def verificaTipos(a, b):
+    if(a == b):
+        print("dkcnd")
