@@ -218,6 +218,25 @@ def bottom_up(listaToken):
                 #declaracao sem atribuicao
                 pilha.extend([token, 79])
                 ultimoNomeVar = tokenItem[1]
+                
+                print(listaTipos)
+
+                for elemento in listaTipos:
+                    print(ultimoNomeVar)
+                    if elemento[0] == ultimoNomeVar:
+                        if elemento[1] == "int" and elemento[2] != '':
+                            valor = int(elemento[2])
+                            pilhaOperandos.append(valor)
+                        elif elemento[1] == "float" and elemento[2] != '':
+                            valor = float(elemento[2])
+                            pilhaOperandos.append(valor)
+                        # elif elemento[1] == 'bool'and elemento[2] != '':
+
+                            
+                        else:
+                            print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
+                            exit(0)
+                print(pilhaOperandos)
                 reduzOrEmpilha = 1
             elif(topoPilha == 53):
                 # declaração operação
@@ -238,6 +257,7 @@ def bottom_up(listaToken):
                 pilha.extend([token, 39])
                 reduzOrEmpilha = 1
             elif(topoPilha == 16 or topoPilha == 83):
+                variavelAlterarValor = ultimoNomeVar
                 pilha.extend([token, 18])
                 reduzOrEmpilha = 1
         elif(token == 'operando'):
@@ -264,35 +284,22 @@ def bottom_up(listaToken):
             if(topoPilha == 26):
                 pilha.extend([token, 28])
                 reduzOrEmpilha = 1
+                linha = tokenItem[2]
         elif(token == 'operador_sum'):
-            print("PILHA", pilhaOperandos)
-            if(topoPilha == 22):
-                nomes = [x[0] for x in listaTipos]
-                print(nomes)
-                print(pilhaOperandos[-1])
-                if(pilhaOperandos[-1] in nomes):
-                    for elemento in listaTipos:
-                        print(ultimoNomeVar)
-                        if elemento[0] == ultimoNomeVar:
-                            if elemento[1] == "int":
-                                valor = int(elemento[2])
-                                pilhaOperandos.append(valor)
-                            elif elemento[1] == "float":
-                                valor = float(elemento[2])
-                                pilhaOperandos.append(valor)
-                            else:
-                                print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
-                
+            if(topoPilha == 22):               
                 pilha.extend([token, 24])
                 reduzOrEmpilha = 1
+                linha = tokenItem[2]
         elif(token == 'op_relacional'):
             if(topoPilha == 81):
                 pilha.extend([token, 80])
                 reduzOrEmpilha = 1
+                linha = tokenItem[2]
         elif(token == 'op_logicos'):
             if(topoPilha == 74):
                 pilha.extend([token, 76])
                 reduzOrEmpilha = 1
+                linha = tokenItem[2]
             elif(topoPilha == 68):
                 pilha.extend([token, 70])
                 reduzOrEmpilha = 1
@@ -403,6 +410,10 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[12])
             elif(topoPilha == 17):
                 #operacao relacional
+                valor2 = pilhaOperandos.pop(0)
+                valor1 = pilhaOperandos.pop(0)
+
+                verificaTipos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[17])
             elif(topoPilha == 19):
                 reducao(gramaticaItens[0])
@@ -415,6 +426,14 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[14])
             elif(topoPilha == 30):
                 #multiplicacao
+                valor2 = pilhaOperandos.pop(0)
+                valor1 = pilhaOperandos.pop(0)
+
+                verificaTipos(type(valor1), type(valor2), linha)
+                for elemento in listaTipos:
+                    if elemento[0] == variavelAlterarValor:
+                        elemento[2] = valor1 * valor2
+                        
                 reducao(gramaticaItens[13])
             elif(topoPilha == 33 and token != 'else'):
                 reducao(gramaticaItens[27])
@@ -426,15 +445,13 @@ def bottom_up(listaToken):
                 #declaracao da variavel com atribuicao
                 if(tipoOperando == "str"):
                     tipoOperando = "char"
-                print(ultimoTipo)
-                print(tipoOperando)
                 if(ultimoTipo == tipoOperando):
                     print(ultimoOperando)
                     listaTipos.append([ultimoNomeVar, ultimoTipo, ultimoOperando])
                     reducao(gramaticaItens[11])
                 else:
                     print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]-1} -> Tipo da variável {ultimoNomeVar} é incompatível    \n')
-                    exit()
+                    exit(0)
             elif(topoPilha == 42):
                 reducao(gramaticaItens[33])
             elif(topoPilha == 43):
@@ -454,7 +471,7 @@ def bottom_up(listaToken):
                             reducao(gramaticaItens[20])
                         else:
                             print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
-                            exit()
+                            exit(0)
             elif(topoPilha == 71):
                 reducao(gramaticaItens[28])
             elif(topoPilha == 72):
@@ -469,6 +486,10 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[30])
             elif(topoPilha == 78):
                 #operacao logica (dois operandos)
+                valor2 = pilhaOperandos.pop(0)
+                valor1 = pilhaOperandos.pop(0)
+
+                verificaTiposLogicos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[22])
             elif(topoPilha == 79):                
                 reducao(gramaticaItens[18])
@@ -478,19 +499,38 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[31])
             elif(topoPilha == 84):
                 #soma
+                valor2 = pilhaOperandos.pop(0)
+                valor1 = pilhaOperandos.pop(0)
+                verificaTipos(type(valor1), type(valor2), linha)
+                for elemento in listaTipos:
+                    if elemento[0] == variavelAlterarValor:
+                        elemento[2] = valor1 + valor2
+                
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
-                if ultimoOperando != "str": 
-                    pilhaOperandos.append(ultimoOperando)
+                if ultimoOperando.isnumeric():
+                    valor = int(ultimoOperando)
+                    pilhaOperandos.append(valor)
+                elif '.' in ultimoOperando: 
+                    valor = float(ultimoOperando)
+                    pilhaOperandos.append(valor)
+                print(pilhaOperandos)
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
                 reducao(gramaticaItens[37])
         if(reduzOrEmpilha == 0):
             #erro
             print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Termo não esperado {tokenItem[1]}     \n')
+            exit(0)
 
             return 0
 
-def verificaTipos(a, b):
-    if(a == b):
-        print("dkcnd")
+def verificaTipos(a, b, linha):
+    if(a != b):
+        print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
+        exit(0)
+
+def verificaTiposLogicos(a, b, linha):
+    if(a != 'bool' or b != 'bool'):
+        print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
+        exit(0)

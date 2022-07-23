@@ -4,9 +4,9 @@ main
 int nota1 = 34
 float nota2 = 87.6
 float nota 
-float media
-bool aprovado 
-bool teste
+float media 
+bool aprovado = true
+bool teste = false
 
 aprovado = 's'
 
@@ -18,10 +18,14 @@ print("Digite a segunda nota do aluno: ")
 scan(nota)
 
 ¬¬Processamento
-media = 45 + nota2
+media = 98.2 * 45.7
 
-¬¬Verifica aprovação
-if (media < 70+56)
+if (aprovado & teste)
+{
+    print("verifica");
+}
+
+if (media < 'a' )
 {
 aprovado = false
 print("Aluno reprovado!")
