@@ -212,17 +212,19 @@ def operadorSimbolos(caracteres, numeroLinha):
 def char_string(caracteres, numeroLinha):
     global token, token_lista
     verificaAspas = True
-
+    ret = len(token)
     token = caracteres
     for i in range(len(token)):
         if token[i] == '"' and token[-1] == '"' and verificaAspas:
             token_lista.append(['cadeia_print', token[1:-2], numeroLinha])
             verificaAspas = False
+            ret = len(token)
 
-        elif token[i] == "'" and token[-2] == "'" and verificaAspas:
+        elif token[i] == "'" and token[i+2] == "'" and verificaAspas:
             token_lista.append(['operando', token[1], numeroLinha]) 
             verificaAspas = False
-    return len(token)
+            ret = 3
+    return ret
 
 def operandos(token, numeroLinha):
     global token_lista, lista_variaveis
