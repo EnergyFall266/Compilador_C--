@@ -4,6 +4,9 @@ import string
 
 if __name__ == "__main__":
     f = open('exemploCodigo.txt', 'r', encoding="utf8")
+    arq3end = open('arquivo3enderecos', 'a', encoding="utf8")
+    arq3end.truncate(0)
+
     numeroLinha = 0
     simbolos = [';', ':', '{','}','(',')', '+', '-', '*', '/', '&', '|']
     comparacao = ['=','<','>','!']
@@ -12,6 +15,7 @@ if __name__ == "__main__":
     for linha in f:
         numeroLinha+=1
         verificaCaractere = True
+        
         if(linha[0] == "¬" and linha[1] != "¬"):
             #erro
             print("Termo não esperado: ", linha[1])
@@ -21,6 +25,7 @@ if __name__ == "__main__":
             pass
         else:
             char = 0
+            mov = 0
             while char < len(linha):
                 
                 if(linha[char] in simbolos):
@@ -46,8 +51,11 @@ if __name__ == "__main__":
                     char += (move-1)
                 elif(linha[char].isalnum and verificaCaractere and not linha[char]==' '):
                     #verificar se é alguma palavra, operando ou operador
-                    token.operadorSimbolos(linha[char:-1], numeroLinha)
-                    verificaCaractere = False 
+                    mov = token.operadorSimbolos(linha[char:-1], numeroLinha)
+                    print(mov)
+                    # colocar flag para quandor ler tipo e em seguida 
+                    verificaCaractere = False
+                    char += (mov-1)
                 char += 1
     for i in token.token_lista:
         print(i) 
@@ -59,7 +67,7 @@ if __name__ == "__main__":
     #tokens = [x[0] for x in token.token_lista]
 
     #analiseSintatica = 0 -> erro; analiseSintatica = 1 -> string aceita
-    analiseSintatica = sintatico.bottom_up(token.token_lista)
+    analiseSintatica = sintatico.bottom_up(token.token_lista, arq3end)
     
 
                  

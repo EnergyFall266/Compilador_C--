@@ -1,14 +1,14 @@
 main
 {
 ¬¬Declaração das variáveis
+bool agua = false
 int nota1 = 34
-float nota2 = 87.6
+float nota2 = 87.2
 float nota 
 float media 
 bool aprovado = true
 bool teste = false
-
-
+nota2 = 2
 
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
@@ -20,12 +20,12 @@ scan(nota)
 ¬¬Processamento
 media = 98.2 * 45.7
 
-if (aprovado & teste)
+if (!teste & aprovado)
 {
-    print("verifica");
+    print("verifica")
 }
 
-if (media < 'a' )
+if (media < nota2 )
 {
 aprovado = false
 print("Aluno reprovado!")

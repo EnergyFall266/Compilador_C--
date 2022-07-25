@@ -128,10 +128,11 @@ def reducao(producao):
     #desvio de acordo com os últimos dois elementos da pilha (estado e ultimo simbolo)
     goTo()
 
-def bottom_up(listaToken):
+def bottom_up(listaToken, arq):
     global x
     global reduzOrEmpilha
     global listaTipos
+    flagCondicaoIf = 0
 
     #inicia a pilha com um 0
     pilha.append(0)
@@ -160,6 +161,7 @@ def bottom_up(listaToken):
             pilha.extend([token, 1])
             reduzOrEmpilha = 1
         elif(token == '{'):
+            #verificar qual desses ifs é quando tem um token de if antes
             if(topoPilha == 1):
                 pilha.extend([token, 2])
                 reduzOrEmpilha = 1
@@ -254,13 +256,16 @@ def bottom_up(listaToken):
                 # print
                 pilha.extend([token, 38])
                 reduzOrEmpilha = 1
+                ultimoPrint = tokenItem[1]
         elif(token == '='):
             if(topoPilha == 15):
                 pilha.extend([token, 39])
                 reduzOrEmpilha = 1
+                linha = tokenItem[2]
             elif(topoPilha == 16 or topoPilha == 83):
                 variavelAlterarValor = ultimoNomeVar
                 pilha.extend([token, 18])
+                linha = tokenItem[2]
                 reduzOrEmpilha = 1
         elif(token == 'operando'):
             if(topoPilha == 24 or topoPilha == 23 or topoPilha == 18 or topoPilha == 28 or topoPilha == 54 
@@ -270,8 +275,7 @@ def bottom_up(listaToken):
                 if tokenItem[1].isnumeric():
                     tipoOperando = 'int'
                 elif ('.' in tokenItem[1]):
-                    tipoOperando = 'float'
-                  
+                    tipoOperando = 'float'        
                 
                 reduzOrEmpilha = 1
             elif(topoPilha == 39):
@@ -287,16 +291,19 @@ def bottom_up(listaToken):
                 pilha.extend([token, 28])
                 reduzOrEmpilha = 1
                 linha = tokenItem[2]
+                ultimoOperador = tokenItem[1]
         elif(token == 'operador_sum'):
             if(topoPilha == 22):               
                 pilha.extend([token, 24])
                 reduzOrEmpilha = 1
                 linha = tokenItem[2]
+                ultimoOperador = tokenItem[1]
         elif(token == 'op_relacional'):
             if(topoPilha == 81):
                 pilha.extend([token, 80])
                 reduzOrEmpilha = 1
                 linha = tokenItem[2]
+                ultimoOperadorRelacional = tokenItem[1]
         elif(token == 'op_logicos'):
             if(topoPilha == 74):
                 pilha.extend([token, 76])
@@ -314,6 +321,8 @@ def bottom_up(listaToken):
             or topoPilha == 45 or topoPilha == 60 or topoPilha == 67):
                 pilha.extend([token, 21])
                 reduzOrEmpilha = 1
+                arq.write("IF ")
+                flagCondicaoIf = 1
         elif(token == '('):
             if(topoPilha == 21):
                 pilha.extend([token, 23])
@@ -358,6 +367,9 @@ def bottom_up(listaToken):
             or topoPilha == 60 or topoPilha == 67):
                 pilha.extend([token, 51])
                 reduzOrEmpilha = 1
+                #3 endereços
+                #criar um label
+                arq.write("IF ")
         elif(token == ';'):
             if(topoPilha == 55):
                 pilha.extend([token, 57])
@@ -370,6 +382,9 @@ def bottom_up(listaToken):
             or topoPilha == 60 or topoPilha == 67):
                 pilha.extend([token, 52])
                 reduzOrEmpilha = 1
+                #3 endereços
+                #criar label
+                arq.write("IF ")
         elif(token == 'print'):
             if(topoPilha == 2 or topoPilha == 5 or topoPilha == 29 or topoPilha == 45
             or topoPilha == 60 or topoPilha == 67):
@@ -379,6 +394,7 @@ def bottom_up(listaToken):
             if(topoPilha == 34):
                 pilha.extend([token, 36])
                 reduzOrEmpilha = 1
+                ultimoPrint = tokenItem[1]
         elif(token == 'scan'):
             if(topoPilha == 2 or topoPilha == 5 or topoPilha == 29 or topoPilha == 45
             or topoPilha == 60 or topoPilha == 67):
@@ -413,15 +429,26 @@ def bottom_up(listaToken):
             elif(topoPilha == 17):
                 #operacao relacional
                 valor2 = pilhaOperandos.pop(0)
-                valor1 = pilhaOperandos.pop(0)
+                if len(pilhaOperandos) != 0:
+
+                    valor1 = pilhaOperandos.pop(0)
 
 
-                verificaTipos(type(valor1), type(valor2), linha)
+                    verificaTipos(type(valor1), type(valor2), linha)
+                else:
+                    verificaTiposLogicosUnico(valor2, linha)
+
                 reducao(gramaticaItens[17])
             elif(topoPilha == 19):
                 reducao(gramaticaItens[0])
             elif(topoPilha == 20):
                 #atribuicao 
+                print('atribuição ',ultimoNomeVar)
+                print('operando ',ultimoOperando)
+                print('linha ' , linha)
+                verificaTipos(type(ultimoNomeVar), type(ultimoOperando),linha)
+                #3 endereços
+                arq.write(ultimoNomeVar+" = "+ultimoOperando+"\n")
                 reducao(gramaticaItens[23])
             elif(topoPilha == 22 and token != 'operador_sum'):
                 reducao(gramaticaItens[16])
@@ -436,14 +463,24 @@ def bottom_up(listaToken):
                 for elemento in listaTipos:
                     if elemento[0] == variavelAlterarValor:
                         elemento[2] = valor1 * valor2
-                        
+                
+                #3 endereços
+                if(ultimoOperador == "*"):
+                    arq.write("MUL "+ variavelAlterarValor+", "+valor1+", "+valor2+"\n")
+                elif(ultimoOperador == "/"):
+                    arq.write("DIV "+ variavelAlterarValor+", "+valor1+", "+valor2+"\n")
+
                 reducao(gramaticaItens[13])
             elif(topoPilha == 33 and token != 'else'):
+                #if sem else
                 reducao(gramaticaItens[27])
             elif(topoPilha == 37):
                 reducao(gramaticaItens[26])
             elif(topoPilha == 40):
+                #print cadeia print
                 reducao(gramaticaItens[34])
+                #3 enderecos
+                arq.write("PRINT "+ultimoPrint+"\n")
             elif(topoPilha == 41):
                 #declaracao da variavel com atribuicao
                 if(tipoOperando == "str"):
@@ -451,13 +488,18 @@ def bottom_up(listaToken):
                 if(ultimoTipo == tipoOperando):
                     print(ultimoOperando)
                     listaTipos.append([ultimoNomeVar, ultimoTipo, ultimoOperando])
+                    #3 endereços
+                    arq.write(ultimoNomeVar+" = "+ultimoOperando+"\n")
                     reducao(gramaticaItens[11])
                 else:
                     print('###################')
                     print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]-1} -> Tipo da variável {ultimoNomeVar} é incompatível    \n')
                     exit(0)
             elif(topoPilha == 42):
+                #print nome_variavel
                 reducao(gramaticaItens[33])
+                #3 enderecos
+                arq.write("PRINT "+ultimoPrint+"\n")
             elif(topoPilha == 43):
                 reducao(gramaticaItens[24])
             elif(topoPilha == 49):
@@ -465,6 +507,8 @@ def bottom_up(listaToken):
             elif(topoPilha == 50):
                 #scan
                 reducao(gramaticaItens[35])
+                #3 endereços
+                arq.write("SCAN "+ultimoNomeVar)
             elif(topoPilha == 64):
                 reducao(gramaticaItens[32])
             elif(topoPilha == 68 and token != 'op_logicos'):
@@ -473,6 +517,8 @@ def bottom_up(listaToken):
                     if(elemento[0] == ultimoNomeVar):
                         if(elemento[1] == "bool"):
                             reducao(gramaticaItens[20])
+                            #3 enderecos
+                            #arq.write("! "+ultimoNomeVar+"\n")
                         else:
                             print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
                             exit(0)
@@ -480,7 +526,12 @@ def bottom_up(listaToken):
                 reducao(gramaticaItens[28])
             elif(topoPilha == 72):
                 #operacao logica not (dois operandos)
+                valor2 = pilhaOperandos.pop(0)
+                valor1 = pilhaOperandos.pop(0)
+
+                verificaTiposLogicos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[19])
+
             elif(topoPilha == 74 and token != 'op_logicos'):
                 reducao(gramaticaItens[21])
             elif(topoPilha == 75):
@@ -492,7 +543,6 @@ def bottom_up(listaToken):
                 #operacao logica (dois operandos)
                 valor2 = pilhaOperandos.pop(0)
                 valor1 = pilhaOperandos.pop(0)
-
 
                 verificaTiposLogicos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[22])
@@ -510,7 +560,12 @@ def bottom_up(listaToken):
                 for elemento in listaTipos:
                     if elemento[0] == variavelAlterarValor:
                         elemento[2] = valor1 + valor2
-                
+                #3 endereços
+                if(ultimoOperador == "+"):
+                    arq.write("SUM "+ variavelAlterarValor+", "+valor1+", "+valor2+"\n")
+                elif(ultimoOperador == "-"):
+                    arq.write("SUB "+ variavelAlterarValor+", "+valor1+", "+valor2+"\n")
+
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
                 if ultimoOperando.isnumeric():
@@ -537,5 +592,9 @@ def verificaTipos(a, b, linha):
 
 def verificaTiposLogicos(a, b, linha):
     if(a != 'bool' or b != 'bool'):
+        print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
+        exit(0)
+def verificaTiposLogicosUnico(a,linha):
+    if a != 'bool':
         print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
         exit(0)
