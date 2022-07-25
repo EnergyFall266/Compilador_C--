@@ -8,7 +8,7 @@ float media
 bool aprovado = true
 bool teste = false
 
-aprovado = 's'
+
 
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")

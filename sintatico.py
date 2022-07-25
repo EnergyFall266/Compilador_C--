@@ -230,10 +230,12 @@ def bottom_up(listaToken):
                         elif elemento[1] == "float" and elemento[2] != '':
                             valor = float(elemento[2])
                             pilhaOperandos.append(valor)
-                        # elif elemento[1] == 'bool'and elemento[2] != '':
+                        elif elemento[1] == 'bool':
+                            continue
 
                             
                         else:
+                            print('@@@@@@@@@@@@')
                             print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
                             exit(0)
                 print(pilhaOperandos)
@@ -413,6 +415,7 @@ def bottom_up(listaToken):
                 valor2 = pilhaOperandos.pop(0)
                 valor1 = pilhaOperandos.pop(0)
 
+
                 verificaTipos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[17])
             elif(topoPilha == 19):
@@ -450,6 +453,7 @@ def bottom_up(listaToken):
                     listaTipos.append([ultimoNomeVar, ultimoTipo, ultimoOperando])
                     reducao(gramaticaItens[11])
                 else:
+                    print('###################')
                     print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]-1} -> Tipo da variável {ultimoNomeVar} é incompatível    \n')
                     exit(0)
             elif(topoPilha == 42):
@@ -488,6 +492,7 @@ def bottom_up(listaToken):
                 #operacao logica (dois operandos)
                 valor2 = pilhaOperandos.pop(0)
                 valor1 = pilhaOperandos.pop(0)
+
 
                 verificaTiposLogicos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[22])

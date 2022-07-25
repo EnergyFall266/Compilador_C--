@@ -224,6 +224,7 @@ def char_string(caracteres, numeroLinha):
             token_lista.append(['operando', token[1], numeroLinha]) 
             verificaAspas = False
             ret = 3
+            break
     return ret
 
 def operandos(token, numeroLinha):
