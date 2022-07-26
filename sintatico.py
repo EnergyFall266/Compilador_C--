@@ -499,7 +499,10 @@ def bottom_up(listaToken, arq):
             elif(topoPilha == 30):
                 #multiplicacao
                 valor2 = pilhaOperandos.pop()
+                nome2 = pilhaRotuloOperandos.pop()
                 valor1 = pilhaOperandos.pop()
+                nome1 = pilhaRotuloOperandos.pop()
+
 
                 verificaTipos(type(valor1), type(valor2), linha)
                 for elemento in listaTipos:
@@ -507,8 +510,17 @@ def bottom_up(listaToken, arq):
                         elemento[2] = valor1 * valor2
                 
                 #3 endereços
+                if(nome1 == "operando"):
+                        op1 = str(valor1)
+                else:
+                    op1 = nome1
+                if(nome2 == "operando"):
+                    op2 = str(valor2)
+                else:
+                    op2 = nome2
+
                 if(ultimoOperador == "*"):
-                    arq.write(variavelAlterarValor+" = "+str(valor1)+" * "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+op1+" * "+op2+"\n")
                 elif(ultimoOperador == "/"):
                     arq.write(variavelAlterarValor+" = "+str(valor1)+" / "+str(valor2)+"\n")
                 flagCondicaoIf = 1
@@ -624,11 +636,14 @@ def bottom_up(listaToken, arq):
                 if ultimoOperando.isnumeric():
                     valor = int(ultimoOperando)
                     pilhaOperandos.append(valor)
+                    pilhaRotuloOperandos.append("operando")
                 elif '.' in ultimoOperando: 
                     valor = float(ultimoOperando)
                     pilhaOperandos.append(valor)
+                    pilhaRotuloOperandos.append("operando")
                 elif ultimoOperando == 'false' or ultimoOperando == 'true':
                     valor1 = True
+                    pilhaRotuloOperandos.append("operando")
                 valor1 = valor
                 # if len(pilhaOperandos) != 0:
                 #     valor1 = pilhaOperandos.pop(0)
