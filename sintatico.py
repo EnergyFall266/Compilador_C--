@@ -133,6 +133,9 @@ def bottom_up(listaToken, arq):
     global reduzOrEmpilha
     global listaTipos
     flagCondicaoIf = 0
+    ultimoOperador = ""
+    operador3end = ""
+    ultimoLabel = 0
 
     #inicia a pilha com um 0
     pilha.append(0)
@@ -183,6 +186,7 @@ def bottom_up(listaToken, arq):
                 reduzOrEmpilha = 1
             elif(topoPilha == 31):
                 pilha.extend([token, 33])
+                arq.write("L"+str(ultimoLabel)+": ")
                 reduzOrEmpilha = 1
             elif(topoPilha == 47):
                 pilha.extend([token, 49])
@@ -327,7 +331,8 @@ def bottom_up(listaToken, arq):
             or topoPilha == 45 or topoPilha == 60 or topoPilha == 67):
                 pilha.extend([token, 21])
                 reduzOrEmpilha = 1
-                arq.write("IF ")
+                arq.write("L"+str(ultimoLabel)+": IF ")
+                ultimoLabel +=1
                 flagCondicaoIf = 1
         elif(token == '('):
             if(topoPilha == 21):
@@ -375,7 +380,8 @@ def bottom_up(listaToken, arq):
                 reduzOrEmpilha = 1
                 #3 endereços
                 #criar um label
-                arq.write("IF ")
+                arq.write("L"+str(ultimoLabel)+" IF ")
+                ultimoLabel +=1
         elif(token == ';'):
             if(topoPilha == 55):
                 pilha.extend([token, 57])
@@ -389,8 +395,8 @@ def bottom_up(listaToken, arq):
                 pilha.extend([token, 52])
                 reduzOrEmpilha = 1
                 #3 endereços
-                #criar label
-                arq.write("IF ")
+                arq.write("L"+str(ultimoLabel)+" IF ")
+                ultimoLabel +=1
         elif(token == 'print'):
             if(topoPilha == 2 or topoPilha == 5 or topoPilha == 29 or topoPilha == 45
             or topoPilha == 60 or topoPilha == 67):
@@ -438,9 +444,13 @@ def bottom_up(listaToken, arq):
                 if len(pilhaOperandos) != 0:
 
                     valor1 = pilhaOperandos.pop(0)
-
-
                     verificaTipos(type(valor1), type(valor2), linha)
+                    if(ultimoOperadorRelacional == "=="):
+                        operador3end = "!="
+                    elif(ultimoOperadorRelacional == "!="):
+                        operador3end = "=="
+                    #3 endereços
+                    arq.write(str(valor1)+" "+operador3end+" "+str(valor2)+" goto L"+str(ultimoLabel)+"\n")
                 else:
                     verificaTiposLogicosUnico(valor2, linha)
 
@@ -486,13 +496,12 @@ def bottom_up(listaToken, arq):
                 #print cadeia print
                 reducao(gramaticaItens[34])
                 #3 enderecos
-                arq.write("PRINT "+ultimoPrint+"\n")
+                arq.write("PRINT \""+ultimoPrint+"\"\n")
             elif(topoPilha == 41):
                 #declaracao da variavel com atribuicao
                 if(tipoOperando == "str"):
                     tipoOperando = "char"
                 if(ultimoTipo == tipoOperando):
-                    print(ultimoOperando)
                     listaTipos.append([ultimoNomeVar, ultimoTipo, ultimoOperando])
                     #3 endereços
                     arq.write(ultimoNomeVar+" = "+ultimoOperando+"\n")
