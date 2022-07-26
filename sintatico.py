@@ -482,9 +482,11 @@ def bottom_up(listaToken, arq):
                 
                 #3 endereços
                 if(ultimoOperador == "*"):
-                    arq.write("MUL "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    # arq.write("MUL "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" * "+str(valor2)+"\n")
                 elif(ultimoOperador == "/"):
-                    arq.write("DIV "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    # arq.write("DIV "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write( variavelAlterarValor+" = "+str(valor1)+" / "+str(valor2)+"\n")
 
                 reducao(gramaticaItens[13])
             elif(topoPilha == 33 and token != 'else'):
@@ -577,9 +579,11 @@ def bottom_up(listaToken, arq):
                         elemento[2] = valor1 + valor2
                 #3 endereços
                 if(ultimoOperador == "+"):
-                    arq.write("SUM "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    # arq.write("SUM "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" + "+str(valor2)+"\n")
                 elif(ultimoOperador == "-"):
-                    arq.write("SUB "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    # arq.write("SUB "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" - "+str(valor2)+"\n")
 
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
@@ -594,15 +598,17 @@ def bottom_up(listaToken, arq):
                 valor1 = valor
                 # if len(pilhaOperandos) != 0:
                 #     valor1 = pilhaOperandos.pop(0)
-                
+                print(valor1)
                 for tp in listaTipos:
                     if tp[0] == ultimoNomeVar:
                         valor2 = tp[1]
+                        valor1 = tp[2]
                 if type(valor1) is int:
-
                     tipo = 'int'
-                if type(valor1) is float:
+                elif type(valor1) is float:
                     tipo = 'float'
+                elif type(valor1) is bool:
+                    tipo = 'bool'
                 
                 verificaTipos(tipo,valor2,linha)
                 print(pilhaOperandos)
@@ -619,6 +625,8 @@ def bottom_up(listaToken, arq):
 def verificaTipos(a, b, linha):
     
     if(a != b):
+        print('a',a)
+        print(b)
         print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
         exit(0)
 

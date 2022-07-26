@@ -242,7 +242,7 @@ def operandos(token, numeroLinha):
     global token_lista, lista_variaveis
     
     for k in range(len(token)):
-        print('token[k] ',token[k])
+        # print('token[k] ',token[k])
         if "\'" in token[k]:
             continue
         elif token[k] == 'true' or token[k] == 'false':
