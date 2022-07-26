@@ -18,7 +18,7 @@ print("Digite a segunda nota do aluno: ")
 scan(nota)
 
 ¬¬Processamento
-media = nota2 * 45.7
+media = 45.5 + 45.7
 
 if (!teste & aprovado)
 {
