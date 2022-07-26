@@ -275,17 +275,23 @@ def bottom_up(listaToken, arq):
                 if tokenItem[1].isnumeric():
                     tipoOperando = 'int'
                 elif ('.' in tokenItem[1]):
-                    tipoOperando = 'float'        
+                    tipoOperando = 'float'  
+                elif tokenItem[1] == 'false' or tokenItem[1] == 'true':
+                    tipoOperando = 'bool'      
                 
                 reduzOrEmpilha = 1
             elif(topoPilha == 39):
+                print(tokenItem)
                 pilha.extend([token, 41])
                 ultimoOperando = tokenItem[1]
                 if tokenItem[1].isnumeric():
                     tipoOperando = 'int'
-                if ('.' in tokenItem[1]):
+                elif ('.' in tokenItem[1]):
                     tipoOperando = 'float'
+                elif tokenItem[1] == 'false' or tokenItem[1] == 'true':
+                    tipoOperando = 'bool'
                 reduzOrEmpilha = 1
+
         elif(token == 'operador_mul'):
             if(topoPilha == 26):
                 pilha.extend([token, 28])
@@ -574,6 +580,9 @@ def bottom_up(listaToken, arq):
                 elif '.' in ultimoOperando: 
                     valor = float(ultimoOperando)
                     pilhaOperandos.append(valor)
+                
+                valor1 = pilhaOperandos.pop(0)
+                verificaTipos(type(valor1),type(ultimoNomeVar),linha)
                 print(pilhaOperandos)
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
