@@ -25,7 +25,7 @@ if __name__ == "__main__":
             pass
         else:
             char = 0
-            mov = 0
+           
             while char < len(linha):
                 
                 if(linha[char] in simbolos):
@@ -51,11 +51,11 @@ if __name__ == "__main__":
                     char += (move-1)
                 elif(linha[char].isalnum and verificaCaractere and not linha[char]==' '):
                     #verificar se é alguma palavra, operando ou operador
-                    mov = token.operadorSimbolos(linha[char:-1], numeroLinha)
-                    print(mov)
+                    token.operadorSimbolos(linha[char:-1], numeroLinha)
+                   
                     # colocar flag para quandor ler tipo e em seguida 
                     verificaCaractere = False
-                    char += (mov-1)
+                    
                 char += 1
     for i in token.token_lista:
         print(i) 

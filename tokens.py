@@ -73,10 +73,8 @@ def tipo_dado(token, numeroLinha):
         lista_variaveis.extend(token)
         # del token[:]
     if len(token)!=0:
-        andar = reservadas(token, numeroLinha)
-        print('!!!!!', andar)
-        if andar is not None:
-            return andar
+       reservadas(token, numeroLinha)
+        
 def comparacao(token, numeroLinha):
     for i in range(len(token)):    
         if token[i] == '>':
@@ -98,8 +96,8 @@ def comparacao(token, numeroLinha):
                 # token=token.replace("<>", " ")
                 return 2
             else:
-                token_lista.append(['op_relacional', token[i], numeroLinha])
-                # token=token.replace("<", " ")
+            #     token_lista.append(['op_relacional', token[i], numeroLinha])
+            #     # token=token.replace("<", " ")
                 return 1
 
         elif token[i] == '=':
@@ -109,7 +107,7 @@ def comparacao(token, numeroLinha):
                 return 2
                 
             else:
-                token_lista.append(['=', token[i], numeroLinha])
+                # token_lista.append(['=', token[i], numeroLinha])
                 # token=token.replace("=", " ")
                 return 1
         elif token[i] == '!':
@@ -156,8 +154,9 @@ def operadorSimbolos(caracteres, numeroLinha):
     
     token=caracteres
     #print(f"token:{token}")
-    tam = len(token)
-    print(tam)
+    if token == 'false' or token == 'true':
+        if token_lista[-1][1] == 'true' or token_lista[-1][1] == 'false':
+            return
     for i in range(len(token)):
         #print(f"token[i]:{token[i]}, i={i}, token={token}")
         if i == 1:
@@ -166,7 +165,10 @@ def operadorSimbolos(caracteres, numeroLinha):
                 if vav[0] == lista_variaveis[indice]:
                     token_lista.append(['nome_variavel', vav[0], numeroLinha])
                     token = '#'+token[1:]
-                    del vav[0]
+                    if vav[0] != vav[-1]:
+                        if vav[1] == '=' and vav[1] !='':
+                            token_lista.append(['=', vav[1], numeroLinha])
+                    # del vav[0]
                     return
         if token[i] == '+':
             token=token.replace("+", " ")
@@ -211,10 +213,9 @@ def operadorSimbolos(caracteres, numeroLinha):
             exclui+=1   
 
     if len(token)!=0:
-        andar = tipo_dado(token, numeroLinha)
-        print('@@@',andar)
-        if andar is not None:
-            return andar
+        tipo_dado(token, numeroLinha)
+        
+       
      
 def char_string(caracteres, numeroLinha):
     global token, token_lista
@@ -223,7 +224,7 @@ def char_string(caracteres, numeroLinha):
     token = caracteres
     for i in range(len(token)):
         if token[i] == '"' and token[-1] == '"' and verificaAspas:
-            token_lista.append(['cadeia_print', token[1:-2], numeroLinha])
+            token_lista.append(['cadeia_print', token[1:-1], numeroLinha])
             verificaAspas = False
             ret = len(token)
 
@@ -236,7 +237,7 @@ def char_string(caracteres, numeroLinha):
 
 def operandos(token, numeroLinha):
     global token_lista, lista_variaveis
-    compara = 0
+    
     for k in range(len(token)):
         print('token[k] ',token[k])
         if "\'" in token[k]:
@@ -245,18 +246,17 @@ def operandos(token, numeroLinha):
             reservadas(token[k], numeroLinha)
             continue
         elif token[k] == '=':
-            comparacao(token, numeroLinha)
-            compara = tam
-            vai = True
+            token_lista.append(['=', token[k], numeroLinha])
+            
+            
         elif token[k] in lista_variaveis and not token[k].isnumeric() and '.' not in token[k]:
             token_lista.append(['nome_variavel', token[k], numeroLinha])
+            
         elif token[k] not in lista_variaveis and not token[k].isnumeric():
             print(f'\nLinha {numeroLinha} -> variavel {token[k]} nao declarada\n')
             exit(0)
     
-    print()
-    return compara
-        
+    
         
 def reservadas(token, numeroLinha):
     global token_lista
@@ -298,7 +298,5 @@ def reservadas(token, numeroLinha):
         return
     
     if len(token)!=0:
-        andar = operandos(token, numeroLinha)
-        print('##',andar)
-        if andar is not None:
-            return andar
+         operandos(token, numeroLinha)
+        
