@@ -5,3 +5,5 @@ aprovado = true
 teste = false
 PRINT Digite a primeira nota do aluno: 
 SCAN nota1
+PRINT Digite a segunda nota do aluno: 
+SCAN nota

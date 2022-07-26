@@ -10,16 +10,15 @@ bool aprovado = true
 bool teste = false
 
 
-
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
 scan(nota1)
-nota = false
+
 print("Digite a segunda nota do aluno: ")
 scan(nota)
 
 ¬¬Processamento
-media = 98.2 * 45.7
+media = nota2 * 45.7
 
 if (!teste & aprovado)
 {

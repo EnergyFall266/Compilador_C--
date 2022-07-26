@@ -514,7 +514,7 @@ def bottom_up(listaToken, arq):
                 #scan
                 reducao(gramaticaItens[35])
                 #3 endereços
-                arq.write("SCAN "+ultimoNomeVar)
+                arq.write("SCAN "+ultimoNomeVar+'\n')
             elif(topoPilha == 64):
                 reducao(gramaticaItens[32])
             elif(topoPilha == 68 and token != 'op_logicos'):
@@ -580,8 +580,11 @@ def bottom_up(listaToken, arq):
                 elif '.' in ultimoOperando: 
                     valor = float(ultimoOperando)
                     pilhaOperandos.append(valor)
-                
-                valor1 = pilhaOperandos.pop(0)
+                elif ultimoOperando == 'false' or ultimoOperando == 'true':
+                    valor1 = True
+                    print(valor1)
+                if len(pilhaOperandos) != 0:
+                    valor1 = pilhaOperandos.pop(0)
                 verificaTipos(type(valor1),type(ultimoNomeVar),linha)
                 print(pilhaOperandos)
                 reducao(gramaticaItens[36])
