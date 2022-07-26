@@ -8,12 +8,13 @@ float nota
 float media 
 bool aprovado = true
 bool teste = false
-nota2 = 2
+
+
 
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
 scan(nota1)
-
+nota = false
 print("Digite a segunda nota do aluno: ")
 scan(nota)
 

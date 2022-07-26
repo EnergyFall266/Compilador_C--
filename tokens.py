@@ -157,6 +157,9 @@ def operadorSimbolos(caracteres, numeroLinha):
     if token == 'false' or token == 'true':
         if token_lista[-1][1] == 'true' or token_lista[-1][1] == 'false':
             return
+        else:
+            reservadas(token,numeroLinha)
+            return    
     for i in range(len(token)):
         #print(f"token[i]:{token[i]}, i={i}, token={token}")
         if i == 1:
