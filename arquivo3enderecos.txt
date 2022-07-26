@@ -1,19 +1,23 @@
 agua = false
-nota1 = 34
+nota1 = 30
 nota2 = 87.2
 nota = 54.5
 aprovado = true
 teste = false
+notaFim = 30
+not = 54.6
 PRINT aprovado
 PRINT "Digite a primeira nota do aluno: "
 SCAN nota1
 PRINT "Digite a segunda nota do aluno: "
 SCAN nota
-nota2 = 10.5 * 54.5
-nota = 10.5
-L0: IF 572.25 != 54.5 goto L1
+L0: IF 30 != 30 goto L1
+teste = true
+nota1 = 30 * 10
+L1: not = 10
+PRINT "multiplica"
+L2: IF 54.5 != 54.6 goto L3
 PRINT "nota é menor"
-L1: PRINT nota1
-media = 45.7 + 45.5
-media = 45.7
-L2: IF 
+L3: PRINT nota1
+media = 87.2 + 45.5
+L4: IF 

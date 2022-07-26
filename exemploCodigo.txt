@@ -2,12 +2,14 @@ main
 {
 ¬¬Declaração das variáveis
 bool agua = false
-int nota1 = 34
+int nota1 = 30
 float nota2 = 87.2
 float nota = 54.5
 float media 
 bool aprovado = true
 bool teste = false
+int notaFim = 30
+float not = 54.6
 
 print(aprovado)
 
@@ -18,7 +20,14 @@ scan(nota1)
 print("Digite a segunda nota do aluno: ")
 scan(nota)
 
-nota2 = nota * 10.5
+while(nota1 == notaFim)
+{   
+    teste = true
+    nota1 = nota1 * 10
+}
+
+nota2 = not 
+print("multiplica")
 
 if(nota == nota2){
     print("nota é menor")

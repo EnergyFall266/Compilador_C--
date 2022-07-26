@@ -5,6 +5,7 @@ from xml.etree.ElementTree import ElementTree
 
 pilha = []
 pilhaOperandos = []
+pilhaRotuloOperandos = []
 global x
 #variavel de controle (se permanecer em 0 não é possível empilhar ou reduzir com os simbolos analisados, entao ha um erro no codigo)
 global reduzOrEmpilha 
@@ -135,6 +136,7 @@ def bottom_up(listaToken, arq):
     flagCondicaoIf = 0
     ultimoOperador = ""
     operador3end = ""
+    tipo = ""
     ultimoLabel = 0
 
     #inicia a pilha com um 0
@@ -234,13 +236,15 @@ def bottom_up(listaToken, arq):
                         if elemento[1] == "int" and elemento[2] != '':
                             valor = int(elemento[2])
                             pilhaOperandos.append(valor)
+                            pilhaRotuloOperandos.append(ultimoNomeVar)
                         elif elemento[1] == "float" and elemento[2] != '':
                             valor = float(elemento[2])
                             pilhaOperandos.append(valor)
+                            pilhaRotuloOperandos.append(ultimoNomeVar)
                         elif elemento[1] == 'bool':
+                            pilhaRotuloOperandos.append(ultimoNomeVar)
                             continue
 
-                            
                         else:
                             print('@@@@@@@@@@@@')
                             print(f'\n!!!ERRO!!!\nLinha {tokenItem[2]} -> Tipo da variável {elemento[0]} é incompatível    \n')
@@ -396,7 +400,7 @@ def bottom_up(listaToken, arq):
                 pilha.extend([token, 52])
                 reduzOrEmpilha = 1
                 #3 endereços
-                arq.write("L"+str(ultimoLabel)+" IF ")
+                arq.write("L"+str(ultimoLabel)+": IF ")
                 ultimoLabel +=1
         elif(token == 'print'):
             if(topoPilha == 2 or topoPilha == 5 or topoPilha == 29 or topoPilha == 45
@@ -442,16 +446,28 @@ def bottom_up(listaToken, arq):
             elif(topoPilha == 17):
                 #operacao relacional
                 valor2 = pilhaOperandos.pop(0)
+                nome2  = pilhaRotuloOperandos.pop(0)
                 if len(pilhaOperandos) != 0:
 
                     valor1 = pilhaOperandos.pop(0)
+                    nome1  = pilhaRotuloOperandos.pop(0)
+
                     verificaTipos(type(valor1), type(valor2), linha)
                     if(ultimoOperadorRelacional == "=="):
                         operador3end = "!="
                     elif(ultimoOperadorRelacional == "!="):
                         operador3end = "=="
+                    elif(ultimoOperadorRelacional == "<" or ultimoOperadorRelacional == "<="):
+                        operador3end = ">"
+                    elif(ultimoOperadorRelacional == ">" or ultimoOperadorRelacional == ">="):
+                        operador3end = "<"
+
                     #3 endereços
-                    arq.write(str(valor1)+" "+operador3end+" "+str(valor2)+" goto L"+str(ultimoLabel)+"\n")
+                    if(nome1 == "operando"):
+                        op1 = str(valor1)
+                    if(nome2 == "operando"):
+                        op2 = str(valor2)
+                    arq.write(+" "+operador3end+" "+str(valor2)+" goto L"+str(ultimoLabel)+"\n")
                 else:
                     verificaTiposLogicosUnico(valor2, linha)
 
@@ -465,7 +481,9 @@ def bottom_up(listaToken, arq):
                 print('linha ' ,linha)
                 verificaTipos(type(ultimoNomeVar), type(ultimoOperando),linha)
                 #3 endereços
-                arq.write(ultimoNomeVar+" = "+ultimoOperando+"\n")
+                if(flagCondicaoIf == 0):
+                    arq.write(ultimoNomeVar+" = "+ultimoOperando+"\n")
+                flagCondicaoIf = 0
                 reducao(gramaticaItens[23])
             elif(topoPilha == 22 and token != 'operador_sum'):
                 reducao(gramaticaItens[16])
@@ -483,9 +501,10 @@ def bottom_up(listaToken, arq):
                 
                 #3 endereços
                 if(ultimoOperador == "*"):
-                    arq.write(variavelAlterarValor+" = "+str(valor1)+" * "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor2)+" * "+str(valor1)+"\n")
                 elif(ultimoOperador == "/"):
-                    arq.write(variavelAlterarValor+" = "+str(valor1)+" / "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor2)+" / "+str(valor1)+"\n")
+                flagCondicaoIf = 1
 
                 reducao(gramaticaItens[13])
             elif(topoPilha == 33 and token != 'else'):
@@ -526,6 +545,8 @@ def bottom_up(listaToken, arq):
                 #3 endereços
                 arq.write("SCAN "+ultimoNomeVar+'\n')
             elif(topoPilha == 64):
+                arq.write("L"+str(ultimoLabel)+": ")
+                ultimoLabel += 1
                 reducao(gramaticaItens[32])
             elif(topoPilha == 68 and token != 'op_logicos'):
                 #not
@@ -578,12 +599,21 @@ def bottom_up(listaToken, arq):
                         elemento[2] = valor1 + valor2
                 #3 endereços
                 if(ultimoOperador == "+"):
-                    arq.write(variavelAlterarValor+" = "+str(valor1)+" + "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor2)+" + "+str(valor1)+"\n")
                 elif(ultimoOperador == "-"):
-                    arq.write(variavelAlterarValor+" = "+str(valor1)+" - "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor2)+" - "+str(valor1)+"\n")
+                flagCondicaoIf = 1
 
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
+
+                '''print(pilhaOperandos)
+                valorX = pilhaOperandos.pop(0)
+                valorY = pilhaOperandos.pop(0)
+
+                print("VALOR1", valorY)
+                print("VALOR2", valorX)'''
+
                 if ultimoOperando.isnumeric():
                     valor = int(ultimoOperando)
                     pilhaOperandos.append(valor)
@@ -595,11 +625,20 @@ def bottom_up(listaToken, arq):
                 valor1 = valor
                 # if len(pilhaOperandos) != 0:
                 #     valor1 = pilhaOperandos.pop(0)
-                print(valor1)
-                for tp in listaTipos:
+                print(pilhaOperandos)
+                print("VALOR1", valor1)
+                print("VALOR2", valor2)
+                print(type(valor1))
+                print(type(valor2))
+
+                print("Primeiro verifica tipos")
+                verificaTipos(type(valor1),type(valor2),linha)
+
+                '''for tp in listaTipos:
                     if tp[0] == ultimoNomeVar:
                         valor2 = tp[1]
                         valor1 = tp[2]
+
                 if type(valor1) is int:
                     tipo = 'int'
                 elif type(valor1) is float:
@@ -608,7 +647,7 @@ def bottom_up(listaToken, arq):
                     tipo = 'bool'
                 
                 verificaTipos(tipo,valor2,linha)
-                print(pilhaOperandos)
+                print(pilhaOperandos)'''
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
                 reducao(gramaticaItens[37])
