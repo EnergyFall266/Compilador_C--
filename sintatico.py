@@ -445,12 +445,15 @@ def bottom_up(listaToken, arq):
                 reducao(gramaticaItens[12])
             elif(topoPilha == 17):
                 #operacao relacional
-                valor2 = pilhaOperandos.pop(0)
-                nome2  = pilhaRotuloOperandos.pop(0)
+                valor2 = pilhaOperandos.pop()
+                nome2  = pilhaRotuloOperandos.pop()
                 if len(pilhaOperandos) != 0:
+                    
+                    print(pilhaOperandos)
+                    print(pilhaRotuloOperandos)
 
-                    valor1 = pilhaOperandos.pop(0)
-                    nome1  = pilhaRotuloOperandos.pop(0)
+                    valor1 = pilhaOperandos.pop()
+                    nome1  = pilhaRotuloOperandos.pop()
 
                     verificaTipos(type(valor1), type(valor2), linha)
                     if(ultimoOperadorRelacional == "=="):
@@ -465,9 +468,13 @@ def bottom_up(listaToken, arq):
                     #3 endereços
                     if(nome1 == "operando"):
                         op1 = str(valor1)
+                    else:
+                        op1 = nome1
                     if(nome2 == "operando"):
                         op2 = str(valor2)
-                    arq.write(+" "+operador3end+" "+str(valor2)+" goto L"+str(ultimoLabel)+"\n")
+                    else:
+                        op2 = nome2
+                    arq.write(op1+" "+operador3end+" "+op2+" goto L"+str(ultimoLabel)+"\n")
                 else:
                     verificaTiposLogicosUnico(valor2, linha)
 
@@ -491,8 +498,8 @@ def bottom_up(listaToken, arq):
                 reducao(gramaticaItens[14])
             elif(topoPilha == 30):
                 #multiplicacao
-                valor2 = pilhaOperandos.pop(0)
-                valor1 = pilhaOperandos.pop(0)
+                valor2 = pilhaOperandos.pop()
+                valor1 = pilhaOperandos.pop()
 
                 verificaTipos(type(valor1), type(valor2), linha)
                 for elemento in listaTipos:
@@ -501,9 +508,9 @@ def bottom_up(listaToken, arq):
                 
                 #3 endereços
                 if(ultimoOperador == "*"):
-                    arq.write(variavelAlterarValor+" = "+str(valor2)+" * "+str(valor1)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" * "+str(valor2)+"\n")
                 elif(ultimoOperador == "/"):
-                    arq.write(variavelAlterarValor+" = "+str(valor2)+" / "+str(valor1)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" / "+str(valor2)+"\n")
                 flagCondicaoIf = 1
 
                 reducao(gramaticaItens[13])
@@ -563,8 +570,8 @@ def bottom_up(listaToken, arq):
                 reducao(gramaticaItens[28])
             elif(topoPilha == 72):
                 #operacao logica not (dois operandos)
-                valor2 = pilhaOperandos.pop(0)
-                valor1 = pilhaOperandos.pop(0)
+                valor2 = pilhaOperandos.pop()
+                valor1 = pilhaOperandos.pop()
 
                 verificaTiposLogicos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[19])
@@ -578,8 +585,8 @@ def bottom_up(listaToken, arq):
                 reducao(gramaticaItens[30])
             elif(topoPilha == 78):
                 #operacao logica (dois operandos)
-                valor2 = pilhaOperandos.pop(0)
-                valor1 = pilhaOperandos.pop(0)
+                valor2 = pilhaOperandos.pop()
+                valor1 = pilhaOperandos.pop()
 
                 verificaTiposLogicos(type(valor1), type(valor2), linha)
                 reducao(gramaticaItens[22])
@@ -591,17 +598,17 @@ def bottom_up(listaToken, arq):
                 reducao(gramaticaItens[31])
             elif(topoPilha == 84):
                 #soma
-                valor2 = pilhaOperandos.pop(0)
-                valor1 = pilhaOperandos.pop(0)
+                valor2 = pilhaOperandos.pop()
+                valor1 = pilhaOperandos.pop()
                 verificaTipos(type(valor1), type(valor2), linha)
                 for elemento in listaTipos:
                     if elemento[0] == variavelAlterarValor:
                         elemento[2] = valor1 + valor2
                 #3 endereços
                 if(ultimoOperador == "+"):
-                    arq.write(variavelAlterarValor+" = "+str(valor2)+" + "+str(valor1)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" + "+str(valor2)+"\n")
                 elif(ultimoOperador == "-"):
-                    arq.write(variavelAlterarValor+" = "+str(valor2)+" - "+str(valor1)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" - "+str(valor2)+"\n")
                 flagCondicaoIf = 1
 
                 reducao(gramaticaItens[15])
