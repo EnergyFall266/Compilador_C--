@@ -4,7 +4,7 @@ import string
 
 if __name__ == "__main__":
     f = open('exemploCodigo.txt', 'r', encoding="utf8")
-    arq3end = open('arquivo3enderecos', 'a', encoding="utf8")
+    arq3end = open('arquivo3enderecos.txt', 'a', encoding="utf8")
     arq3end.truncate(0)
 
     numeroLinha = 0

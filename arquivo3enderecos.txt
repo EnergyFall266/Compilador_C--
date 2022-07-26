@@ -9,6 +9,11 @@ PRINT "Digite a primeira nota do aluno: "
 SCAN nota1
 PRINT "Digite a segunda nota do aluno: "
 SCAN nota
-L0: IF 87.2 != 54.5 goto L1
+nota2 = 10.5 * 54.5
+nota = 10.5
+L0: IF 572.25 != 54.5 goto L1
 PRINT "nota é menor"
 L1: PRINT nota1
+media = 45.7 + 45.5
+media = 45.7
+L2: IF 

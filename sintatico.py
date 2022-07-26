@@ -187,6 +187,7 @@ def bottom_up(listaToken, arq):
             elif(topoPilha == 31):
                 pilha.extend([token, 33])
                 arq.write("L"+str(ultimoLabel)+": ")
+                ultimoLabel += 1
                 reduzOrEmpilha = 1
             elif(topoPilha == 47):
                 pilha.extend([token, 49])
@@ -482,9 +483,9 @@ def bottom_up(listaToken, arq):
                 
                 #3 endereços
                 if(ultimoOperador == "*"):
-                    arq.write("MUL "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" * "+str(valor2)+"\n")
                 elif(ultimoOperador == "/"):
-                    arq.write("DIV "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" / "+str(valor2)+"\n")
 
                 reducao(gramaticaItens[13])
             elif(topoPilha == 33 and token != 'else'):
@@ -577,9 +578,9 @@ def bottom_up(listaToken, arq):
                         elemento[2] = valor1 + valor2
                 #3 endereços
                 if(ultimoOperador == "+"):
-                    arq.write("SUM "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" + "+str(valor2)+"\n")
                 elif(ultimoOperador == "-"):
-                    arq.write("SUB "+ variavelAlterarValor+", "+str(valor1)+", "+str(valor2)+"\n")
+                    arq.write(variavelAlterarValor+" = "+str(valor1)+" - "+str(valor2)+"\n")
 
                 reducao(gramaticaItens[15])
             elif(topoPilha == 85):
