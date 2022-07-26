@@ -1,9 +1,14 @@
 agua = false
 nota1 = 34
 nota2 = 87.2
+nota = 54.5
 aprovado = true
 teste = false
-PRINT Digite a primeira nota do aluno: 
+PRINT aprovado
+PRINT "Digite a primeira nota do aluno: "
 SCAN nota1
-PRINT Digite a segunda nota do aluno: 
+PRINT "Digite a segunda nota do aluno: "
 SCAN nota
+L0: IF 87.2 != 54.5 goto L1
+PRINT "nota é menor"
+L1: PRINT nota1

@@ -4,11 +4,12 @@ main
 bool agua = false
 int nota1 = 34
 float nota2 = 87.2
-float nota 
+float nota = 54.5
 float media 
 bool aprovado = true
 bool teste = false
 
+print(aprovado)
 
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
@@ -16,6 +17,12 @@ scan(nota1)
 
 print("Digite a segunda nota do aluno: ")
 scan(nota)
+
+if(nota == nota2){
+    print("nota é menor")
+}
+
+print(nota1)
 
 ¬¬Processamento
 media = nota2 * 45.7
