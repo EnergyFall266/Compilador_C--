@@ -683,8 +683,6 @@ def bottom_up(listaToken, arq):
 def verificaTipos(a, b, linha):
     
     if(a != b):
-        print('a',a)
-        print(b)
         print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
         exit(0)
 
