@@ -595,15 +595,17 @@ def bottom_up(listaToken, arq):
                 valor1 = valor
                 # if len(pilhaOperandos) != 0:
                 #     valor1 = pilhaOperandos.pop(0)
-                
+                print(valor1)
                 for tp in listaTipos:
                     if tp[0] == ultimoNomeVar:
                         valor2 = tp[1]
+                        valor1 = tp[2]
                 if type(valor1) is int:
-
                     tipo = 'int'
-                if type(valor1) is float:
+                elif type(valor1) is float:
                     tipo = 'float'
+                elif type(valor1) is bool:
+                    tipo = 'bool'
                 
                 verificaTipos(tipo,valor2,linha)
                 print(pilhaOperandos)
@@ -620,6 +622,8 @@ def bottom_up(listaToken, arq):
 def verificaTipos(a, b, linha):
     
     if(a != b):
+        print('a',a)
+        print(b)
         print(f'\n!!!ERRO!!!\nLinha {linha} -> nao é possivel realizar operacao, tipos diferentes     \n')
         exit(0)
 

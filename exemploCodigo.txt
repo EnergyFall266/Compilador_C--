@@ -18,6 +18,8 @@ scan(nota1)
 print("Digite a segunda nota do aluno: ")
 scan(nota)
 
+nota2 = nota * 10.5
+
 if(nota == nota2){
     print("nota é menor")
 }
