@@ -22,10 +22,10 @@ media = 98.2 * 45.7
 
 if (!teste & aprovado)
 {
-    print("verifica")
+    print("verifica ")
 }
 
-if (media < nota2 )
+if (media == nota2 )
 {
 aprovado = false
 print("Aluno reprovado!")
