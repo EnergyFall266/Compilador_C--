@@ -656,20 +656,20 @@ def bottom_up(listaToken, arq):
                 print("Primeiro verifica tipos")
                 verificaTipos(type(valor1),type(valor2),linha)
 
-                '''for tp in listaTipos:
-                    if tp[0] == ultimoNomeVar:
-                        valor2 = tp[1]
-                        valor1 = tp[2]
+                # for tp in listaTipos:
+                #     if tp[0] == ultimoNomeVar:
+                #         valor2 = tp[1]
+                #         valor1 = tp[2]
 
-                if type(valor1) is int:
-                    tipo = 'int'
-                elif type(valor1) is float:
-                    tipo = 'float'
-                elif type(valor1) is bool:
-                    tipo = 'bool'
+                # if type(valor1) is int:
+                #     tipo = 'int'
+                # elif type(valor1) is float:
+                #     tipo = 'float'
+                # elif type(valor1) is bool:
+                #     tipo = 'bool'
                 
-                verificaTipos(tipo,valor2,linha)
-                print(pilhaOperandos)'''
+                # verificaTipos(tipo,valor2,linha)
+                print(pilhaOperandos)
                 reducao(gramaticaItens[36])
             elif(topoPilha == 86):
                 reducao(gramaticaItens[37])

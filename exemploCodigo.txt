@@ -13,6 +13,8 @@ float not = 54.6
 
 print(aprovado)
 
+
+
 ¬¬Entrada de dados
 print("Digite a primeira nota do aluno: ")
 scan(nota1)
@@ -25,8 +27,11 @@ while(nota1 == notaFim)
     teste = true
     nota1 = nota1 * 10
 }
-
+nota2 = nota +nota1
+nota1 = 10 * 12
 nota2 = not 
+
+
 print("multiplica")
 
 if(nota == nota2){
@@ -38,12 +43,8 @@ print(nota1)
 ¬¬Processamento
 media = 45.5 + 45.7
 
-if (!teste & aprovado)
-{
-    print("verifica ")
-}
 
-if (media == nota2 )
+if (media == 17.5 )
 {
 aprovado = false
 print("Aluno reprovado!")
@@ -53,7 +54,7 @@ else
 aprovado = true
 print("Aluno aprovado!")
 }
-
+media = 17.5
 ¬¬Saída
 print("Media do aluno = ")
 print(media)
